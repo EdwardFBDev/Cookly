@@ -1,0 +1,42 @@
+export const pantryItems = [
+  {
+    id: "1",
+    name: "Pechuga de pollo",
+    quantity: "500 g",
+    expiration: "Vence: 20 May",
+    status: "Próximo",
+    icon: "🍗",
+  },
+  {
+    id: "2",
+    name: "Leche entera",
+    quantity: "1 L",
+    expiration: "Vence: 18 May",
+    status: "Fresco",
+    icon: "🥛",
+  },
+  {
+    id: "3",
+    name: "Tomate",
+    quantity: "3 unidades",
+    expiration: "Vence: 25 May",
+    status: "Fresco",
+    icon: "🍅",
+  },
+  {
+    id: "4",
+    name: "Queso Parmesano",
+    quantity: "200 g",
+    expiration: "Vence: 15 May",
+    status: "Próximo",
+    icon: "🧀",
+  },
+  {
+    id: "5",
+    name: "Yogurt natural",
+    quantity: "170 g",
+    expiration: "Vence: 12 May",
+    status: "Vencido",
+    icon: "🥛",
+  },
+];

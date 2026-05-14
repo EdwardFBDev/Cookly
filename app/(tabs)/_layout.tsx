@@ -1,35 +1,72 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import { colors } from "../../src/constants/theme";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
+        headerStyle: { 
+            backgroundColor: colors.background },
+        headerTintColor: colors.text,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopColor: colors.border,
+          height: 110,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
+        },
+      }}
+    >
+        <Tabs.Screen 
+            name="index" 
+            options={{ title: "Despensa" }} 
+        />
+
+        <Tabs.Screen 
+            name="recipes" 
+            options={{ title: "Recetas" }} 
+        />
+
+        <Tabs.Screen 
+            name="my-recipes" 
+            options={{ title: "Mis Recetas" }} 
+        />
+
+        <Tabs.Screen 
+            name="shopping"
+            options={{ title: "Compras" }} 
+        />
+
+        <Tabs.Screen 
+            name="pantry-detail" 
+            options={{ href: null, title: "Detalle de alimento" }} 
+        />
+
+        <Tabs.Screen 
+            name="recipe-detail" 
+            options={{ href: null, title: "Detalle de receta" }} 
+        />
+
+        <Tabs.Screen 
+            name="recipe-steps" 
+            options={{ href: null, title: "Paso a paso" }} 
+        />
+
+        <Tabs.Screen 
+            name="create-recipe" 
+            options={{ href: null, title: "Nueva receta" }} 
+        />
+
+        <Tabs.Screen 
+            name="add-shopping-item" 
+            options={{ href: null, title: "Agregar producto" }} 
+        />
     </Tabs>
   );
 }

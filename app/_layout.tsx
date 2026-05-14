@@ -1,24 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Drawer } from "expo-router/drawer";
+import { colors } from "../src/constants/theme";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Drawer
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        headerTintColor: colors.text,
+        drawerStyle: {
+          backgroundColor: colors.background,
+        },
+        drawerActiveTintColor: colors.primary,
+        drawerInactiveTintColor: colors.textMuted,
+        drawerActiveBackgroundColor: colors.surface,
+      }}
+    >
+      <Drawer.Screen
+        name="(tabs)"
+        options={{ title: "Inicio"}}
+      />
+
+      <Drawer.Screen 
+        name="alerts"
+        options={{ title: "Alertas" }} 
+      />
+
+      <Drawer.Screen 
+        name="favorites" 
+        options={{ title: "Favoritos" }} 
+      />
+
+      <Drawer.Screen 
+        name="meal-planner" 
+        options={{ title: "Meal Planner" }} 
+      />
+      <Drawer.Screen 
+        name="settings" 
+        options={{ title: "Configuración" }} 
+      />
+    </Drawer>
   );
 }
