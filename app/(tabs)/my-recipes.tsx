@@ -3,6 +3,7 @@ import { Link, useNavigation } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "../../src/components/AppScreen";
+import { AppHeader } from "../../src/components/AppHeader";
 import { CategoryChip } from "../../src/components/CategoryChip";
 import { PrimaryButton } from "../../src/components/PrimaryButton";
 import { RecipeCard } from "../../src/components/RecipeCard";
@@ -20,10 +21,9 @@ export default function MyRecipesScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
+        
       </Pressable>
-
-      <Text style={styles.header}>Mis Recetas</Text>
+      <AppHeader title="Mis Recetas" centered />
 
       <View style={styles.chipRow}>
         {tabs.map((tab, index) => (

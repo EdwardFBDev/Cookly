@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
-import { colors, radius } from "../constants/theme";
+
+import { colors, radius, typography } from "../constants/theme";
+import { StatusBadge } from "./StatusBadge";
+
+type FoodStatus = "Fresco" | "Próximo" | "Vencido";
 
 type FoodCardProps = {
   name: string;
   quantity: string;
   expiration: string;
-  status: string;
+  status: FoodStatus;
   icon: string;
 };
 
@@ -16,13 +20,6 @@ export function FoodCard({
   status,
   icon,
 }: FoodCardProps) {
-  const statusColor =
-    status === "Fresco"
-      ? colors.success
-      : status === "Vencido"
-      ? colors.danger
-      : colors.warning;
-
   return (
     <View style={styles.card}>
       <View style={styles.iconBox}>
@@ -35,9 +32,7 @@ export function FoodCard({
         <Text style={styles.text}>{expiration}</Text>
       </View>
 
-      <View style={[styles.badge, { backgroundColor: `${statusColor}22` }]}>
-        <Text style={[styles.badgeText, { color: statusColor }]}>{status}</Text>
-      </View>
+      <StatusBadge status={status} />
     </View>
   );
 }
@@ -56,7 +51,7 @@ const styles = StyleSheet.create({
   iconBox: {
     width: 58,
     height: 58,
-    borderRadius: 16,
+    borderRadius: radius.md,
     backgroundColor: colors.surfaceSoft,
     alignItems: "center",
     justifyContent: "center",
@@ -70,21 +65,11 @@ const styles = StyleSheet.create({
   },
   name: {
     color: colors.text,
-    fontSize: 15,
-    fontWeight: "800",
+    ...typography.cardTitle,
   },
   text: {
     color: colors.textMuted,
     marginTop: 2,
     fontSize: 12,
-  },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    borderRadius: 10,
-  },
-  badgeText: {
-    fontSize: 12,
-    fontWeight: "800",
   },
 });

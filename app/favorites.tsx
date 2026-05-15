@@ -4,6 +4,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { AppScreen } from "../src/components/AppScreen";
+import { AppHeader } from "../src/components/AppHeader";
 import { colors, radius } from "../src/constants/theme";
 import { favoriteRecipes } from "../src/data/favoritesData";
 
@@ -16,10 +17,9 @@ export default function FavoritesScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
       </Pressable>
 
-      <Text style={styles.header}>Favoritos</Text>
+      <AppHeader title="Favoritos" centered />
 
       <FlatList
         data={favoriteRecipes}

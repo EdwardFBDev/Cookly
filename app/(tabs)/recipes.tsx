@@ -5,6 +5,7 @@ import { FlatList, Pressable, StyleSheet, Text } from "react-native";
 import { AppScreen } from "../../src/components/AppScreen";
 import { RecipeCard } from "../../src/components/RecipeCard";
 import { SearchInput } from "../../src/components/SearchInput";
+import { AppHeader } from "../../src/components/AppHeader";
 import { colors } from "../../src/constants/theme";
 import { suggestedRecipes } from "../../src/data/recipesData";
 
@@ -17,10 +18,9 @@ export default function RecipesScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
       </Pressable>
 
-      <Text style={styles.header}>Recetas sugeridas</Text>
+      <AppHeader title="Recetas sugeridas" centered/>
 
       <SearchInput placeholder="Buscar recetas" />
 

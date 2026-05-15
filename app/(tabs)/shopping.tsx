@@ -3,6 +3,7 @@ import { useNavigation, useRouter } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "../../src/components/AppScreen";
+import { AppHeader } from "../../src/components/AppHeader";
 import { PrimaryButton } from "../../src/components/PrimaryButton";
 import { ShoppingItemCard } from "../../src/components/ShoppingItemCard";
 import { colors } from "../../src/constants/theme";
@@ -21,10 +22,10 @@ export default function ShoppingScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
+
       </Pressable>
 
-      <Text style={styles.header}>Lista de compras</Text>
+      <AppHeader title="Lista de compras" centered />
 
       <Pressable onPress={() => router.push("/add-shopping-item")}>
         <PrimaryButton title="Agregar producto" />

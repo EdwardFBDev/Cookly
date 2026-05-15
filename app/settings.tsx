@@ -4,6 +4,7 @@ import { useNavigation } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "../src/components/AppScreen";
+import { AppHeader } from "../src/components/AppHeader";
 import { colors } from "../src/constants/theme";
 
 export default function SettingsScreen() {
@@ -16,10 +17,9 @@ export default function SettingsScreen() {
           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           style={styles.drawerButton}
         >
-          <Text style={styles.drawerIcon}>☰</Text>
         </Pressable>
 
-        <Text style={styles.header}>Configuración</Text>
+        <AppHeader title="Configuración" centered />
 
         <Text style={styles.sectionTitle}>Preferencias</Text>
 

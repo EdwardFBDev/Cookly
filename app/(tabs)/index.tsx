@@ -6,6 +6,7 @@ import { AppScreen } from "../../src/components/AppScreen";
 import { CategoryChip } from "../../src/components/CategoryChip";
 import { FoodCard } from "../../src/components/FoodCard";
 import { PrimaryButton } from "../../src/components/PrimaryButton";
+import { AppHeader } from "../../src/components/AppHeader";
 import { SearchInput } from "../../src/components/SearchInput";
 import { colors } from "../../src/constants/theme";
 import { pantryItems } from "../../src/data/pantryData";
@@ -21,10 +22,9 @@ export default function PantryScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
       </Pressable>
 
-      <Text style={styles.header}>Mi Despensa</Text>
+      <AppHeader title="Mi Despensa" centered />
 
       <SearchInput placeholder="Buscar alimento" />
 

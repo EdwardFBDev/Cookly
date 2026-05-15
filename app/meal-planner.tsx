@@ -4,6 +4,7 @@ import { useNavigation } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "../src/components/AppScreen";
+import { AppHeader } from "../src/components/AppHeader";
 import { colors, radius } from "../src/constants/theme";
 import { mealPlannerItems } from "../src/data/mealPlannerData";
 
@@ -16,10 +17,9 @@ export default function MealPlannerScreen() {
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         style={styles.drawerButton}
       >
-        <Text style={styles.drawerIcon}>☰</Text>
       </Pressable>
 
-      <Text style={styles.header}>Meal Planner</Text>
+      <AppHeader title="Meal Planner" centered />
 
       <View style={styles.weekHeader}>
         <Ionicons name="chevron-back-outline" size={22} color={colors.text} />
