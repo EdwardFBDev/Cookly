@@ -1,58 +1,47 @@
-import { Link } from "expo-router";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { AppScreen } from "../../src/components/AppScreen";
-import { colors, radius } from "../../src/constants/theme";
+import { DrawerActions } from "@react-navigation/native";
+import { Link, useNavigation } from "expo-router";
+import { FlatList, Pressable, StyleSheet, Text } from "react-native";
 
-const recipes = [
-  {
-    id: "1",
-    name: "Pasta Alfredo",
-    time: "25 min",
-    match: "85% ingredientes",
-    category: "Cena",
-  },
-  {
-    id: "2",
-    name: "Pollo al horno",
-    time: "45 min",
-    match: "70% ingredientes",
-    category: "Almuerzo",
-  },
-  {
-    id: "3",
-    name: "Ensalada César",
-    time: "15 min",
-    match: "60% ingredientes",
-    category: "Snack",
-  },
-];
+import { AppScreen } from "../../src/components/AppScreen";
+import { RecipeCard } from "../../src/components/RecipeCard";
+import { SearchInput } from "../../src/components/SearchInput";
+import { colors } from "../../src/constants/theme";
+import { suggestedRecipes } from "../../src/data/recipesData";
 
 export default function RecipesScreen() {
+  const navigation = useNavigation();
+
   return (
     <AppScreen>
-      <Text style={styles.title}>Recetas sugeridas</Text>
-      <Text style={styles.subtitle}>Basadas en tus ingredientes</Text>
+      <Pressable
+        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        style={styles.drawerButton}
+      >
+        <Text style={styles.drawerIcon}>☰</Text>
+      </Pressable>
+
+      <Text style={styles.header}>Recetas sugeridas</Text>
+
+      <SearchInput placeholder="Buscar recetas" />
+
+      <Text style={styles.sectionTitle}>Basadas en tus ingredientes</Text>
 
       <FlatList
-        data={recipes}
+        data={suggestedRecipes}
         keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-        <Link href="/recipe-detail" asChild>
-          <Pressable style={styles.card}>
-            <View style={styles.imagePlaceholder} />
-
-            <View style={styles.content}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
-              <Text style={styles.cardText}>{item.match}</Text>
-              <Text style={styles.cardMeta}>
-                {item.time} · {item.category}
-              </Text>
-            </View>
-
-            <Text style={styles.favorite}>♡</Text>
-          </Pressable>
-        </Link>
+          <Link href="/recipe-detail" asChild>
+            <Pressable>
+              <RecipeCard
+                image={item.image}
+                title={item.title}
+                match={item.match}
+                time={item.time}
+              />
+            </Pressable>
+          </Link>
         )}
       />
     </AppScreen>
@@ -60,56 +49,29 @@ export default function RecipesScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: {
+  drawerButton: {
+    marginTop: 12,
+    marginBottom: 8,
+    width: 44,
+  },
+  drawerIcon: {
+    color: colors.text,
+    fontSize: 32,
+  },
+  header: {
     color: colors.text,
     fontSize: 28,
-    fontWeight: "800",
-    marginTop: 10,
+    fontWeight: "900",
+    marginTop: 8,
+    textAlign: "center",
   },
-  subtitle: {
-    color: colors.textMuted,
-    marginTop: 6,
-    marginBottom: 20,
+  sectionTitle: {
+    color: colors.text,
+    fontSize: 15,
+    fontWeight: "700",
+    marginBottom: 12,
   },
   list: {
-    gap: 14,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  imagePlaceholder: {
-    width: 78,
-    height: 78,
-    borderRadius: 18,
-    backgroundColor: colors.surfaceSoft,
-    marginRight: 14,
-  },
-  content: {
-    flex: 1,
-  },
-  cardTitle: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  cardText: {
-    color: colors.primary,
-    marginTop: 5,
-    fontWeight: "600",
-  },
-  cardMeta: {
-    color: colors.textMuted,
-    marginTop: 5,
-    fontSize: 12,
-  },
-  favorite: {
-    color: colors.text,
-    fontSize: 24,
+    paddingBottom: 40,
   },
 });

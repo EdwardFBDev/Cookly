@@ -1,4 +1,5 @@
-import { Link } from "expo-router";
+import { DrawerActions } from "@react-navigation/native";
+import { Link, useNavigation } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "../../src/components/AppScreen";
@@ -12,8 +13,17 @@ import { pantryItems } from "../../src/data/pantryData";
 const categories = ["Todos", "Carnes", "Lácteos", "Vegetales"];
 
 export default function PantryScreen() {
+  const navigation = useNavigation();
+
   return (
     <AppScreen>
+      <Pressable
+        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        style={styles.drawerButton}
+      >
+        <Text style={styles.drawerIcon}>☰</Text>
+      </Pressable>
+
       <Text style={styles.header}>Mi Despensa</Text>
 
       <SearchInput placeholder="Buscar alimento" />
@@ -49,11 +59,21 @@ export default function PantryScreen() {
 }
 
 const styles = StyleSheet.create({
+  drawerButton: {
+    marginTop: 12,
+    marginBottom: 8,
+    width: 44,
+  },
+  drawerIcon: {
+    color: colors.text,
+    fontSize: 32,
+  },
   header: {
     color: colors.text,
-    fontSize: 22,
-    fontWeight: "800",
-    marginBottom: 4,
+    fontSize: 28,
+    fontWeight: "900",
+    textAlign: "center",
+    marginBottom: 8,
   },
   chipRow: {
     flexDirection: "row",

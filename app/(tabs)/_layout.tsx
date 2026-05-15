@@ -1,72 +1,139 @@
 import { Tabs } from "expo-router";
+
+import { BottomTabIcon } from "../../src/components/BottomTabIcon";
 import { colors } from "../../src/constants/theme";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { 
-            backgroundColor: colors.background },
-        headerTintColor: colors.text,
+        headerShown: false,
+
         tabBarStyle: {
           backgroundColor: colors.background,
           borderTopColor: colors.border,
-          height: 110,
-          paddingBottom: 8,
+          height: 120,
+          paddingBottom: 14,
           paddingTop: 8,
         },
+
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
+
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: "600",
+          fontWeight: "700",
+          marginTop: 2,
         },
       }}
     >
-        <Tabs.Screen 
-            name="index" 
-            options={{ title: "Despensa" }} 
-        />
+      {/* =========================
+          TABS PRINCIPALES
+      ========================== */}
 
-        <Tabs.Screen 
-            name="recipes" 
-            options={{ title: "Recetas" }} 
-        />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Despensa",
 
-        <Tabs.Screen 
-            name="my-recipes" 
-            options={{ title: "Mis Recetas" }} 
-        />
+          tabBarIcon: ({ color, size }) => (
+            <BottomTabIcon
+              name="basket-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
 
-        <Tabs.Screen 
-            name="shopping"
-            options={{ title: "Compras" }} 
-        />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          title: "Recetas",
 
-        <Tabs.Screen 
-            name="pantry-detail" 
-            options={{ href: null, title: "Detalle de alimento" }} 
-        />
+          tabBarIcon: ({ color, size }) => (
+            <BottomTabIcon
+              name="restaurant-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
 
-        <Tabs.Screen 
-            name="recipe-detail" 
-            options={{ href: null, title: "Detalle de receta" }} 
-        />
+      <Tabs.Screen
+        name="my-recipes"
+        options={{
+          title: "Mis Recetas",
 
-        <Tabs.Screen 
-            name="recipe-steps" 
-            options={{ href: null, title: "Paso a paso" }} 
-        />
+          tabBarIcon: ({ color, size }) => (
+            <BottomTabIcon
+              name="book-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
 
-        <Tabs.Screen 
-            name="create-recipe" 
-            options={{ href: null, title: "Nueva receta" }} 
-        />
+      <Tabs.Screen
+        name="shopping"
+        options={{
+          title: "Compras",
 
-        <Tabs.Screen 
-            name="add-shopping-item" 
-            options={{ href: null, title: "Agregar producto" }} 
-        />
+          tabBarIcon: ({ color, size }) => (
+            <BottomTabIcon
+              name="cart-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+
+      {/* =========================
+          PANTALLAS OCULTAS
+      ========================== */}
+
+      <Tabs.Screen
+        name="pantry-detail"
+        options={{
+          href: null,
+          title: "Detalle alimento",
+        }}
+      />
+
+      <Tabs.Screen
+        name="recipe-detail"
+        options={{
+          href: null,
+          title: "Detalle receta",
+        }}
+      />
+
+      <Tabs.Screen
+        name="recipe-steps"
+        options={{
+          href: null,
+          title: "Paso a paso",
+        }}
+      />
+
+      <Tabs.Screen
+        name="create-recipe"
+        options={{
+          href: null,
+          title: "Nueva receta",
+        }}
+      />
+
+      <Tabs.Screen
+        name="add-shopping-item"
+        options={{
+          href: null,
+          title: "Agregar producto",
+        }}
+      />
     </Tabs>
   );
 }
