@@ -126,7 +126,7 @@ export function DashboardScreen() {
                 onHomePress={navigation.goHome}
                 onInventoryPress={navigation.goInventory}
                 onPlanPress={navigation.goPlan}
-                onRecipesPress={navigation.goRecommendations}
+                onRecipesPress={navigation.goRecipes}
                 onShoppingPress={navigation.goShopping}
             />
         </SafeAreaView>

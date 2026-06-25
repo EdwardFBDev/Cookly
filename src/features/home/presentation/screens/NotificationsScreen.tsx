@@ -106,7 +106,7 @@ export function NotificationsScreen() {
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
-                onRecipesPress={screen.navigation.goRecommendations}
+                onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />
         </SafeAreaView>

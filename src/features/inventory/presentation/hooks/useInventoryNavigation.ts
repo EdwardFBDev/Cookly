@@ -19,7 +19,7 @@ export function useInventoryNavigation() {
         goInventory: () => router.push('/inventory'),
         goLocationManagement: () => router.push('/inventory/locations'),
         goPlan: () => showFutureRoute('Meal planning'),
-        goRecipes: () => router.push('/recommendations'),
+        goRecipes: () => router.push('/recipes'),
         goShopping: () => showFutureRoute('Shopping list'),
         goBack: () => router.back(),
     };
