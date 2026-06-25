@@ -16,7 +16,7 @@ export function useHomeNavigation() {
         goRecipes: () => router.push('/recipes'),
         goRecipeDetail: (recipeId: string) => router.push(`/recipes/${recipeId}`),
         goInventory: () => router.push('/inventory'),
-        goPlan: () => showFutureRoute('Meal planning'),
-        goShopping: () => showFutureRoute('Shopping list'),
+        goPlan: () => router.push('/plan'),
+        goShopping: () => router.push('/shopping'),
     };
 }

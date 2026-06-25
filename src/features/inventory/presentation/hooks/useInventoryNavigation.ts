@@ -18,9 +18,9 @@ export function useInventoryNavigation() {
         goIngredientDetail: (ingredientId: string) => router.push(`/inventory/${ingredientId}`),
         goInventory: () => router.push('/inventory'),
         goLocationManagement: () => router.push('/inventory/locations'),
-        goPlan: () => showFutureRoute('Meal planning'),
+        goPlan: () => router.push('/plan'),
         goRecipes: () => router.push('/recipes'),
-        goShopping: () => showFutureRoute('Shopping list'),
+        goShopping: () => router.push('/shopping'),
         goBack: () => router.back(),
     };
 }
