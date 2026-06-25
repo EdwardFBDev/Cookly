@@ -13,7 +13,7 @@ export function useHomeNavigation() {
         goHome: () => router.push('/home'),
         goNotifications: () => router.push('/notifications'),
         goRecommendations: () => router.push('/recommendations'),
-        goInventory: () => showFutureRoute('Inventory'),
+        goInventory: () => router.push('/inventory'),
         goPlan: () => showFutureRoute('Meal planning'),
         goShopping: () => showFutureRoute('Shopping list'),
     };
