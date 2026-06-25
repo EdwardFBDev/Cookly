@@ -1,5 +1,5 @@
-import { LoginScreen } from '@/features/auth/presentation/screens/LoginScreen';
+import { WelcomeScreen } from '@/features/onboarding/presentation/screens/WelcomeScreen';
 
 export default function Index() {
-    return <LoginScreen />;
+    return <WelcomeScreen />;
 }

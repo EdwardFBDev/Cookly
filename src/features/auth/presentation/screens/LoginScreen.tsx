@@ -1,94 +1,106 @@
-import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
     KeyboardAvoidingView,
     Platform,
+    Pressable,
     ScrollView,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
-import { AuthButton } from '@/features/auth/presentation/components/AuthButton';
-import { AuthTextInput } from '@/features/auth/presentation/components/AuthTextInput';
-import { AuthToggle } from '@/features/auth/presentation/components/AuthToggle';
-
-const emptyAction = () => undefined;
+import { AuthPrimaryButton } from '@/features/auth/presentation/components/AuthPrimaryButton';
+import { AuthTextField } from '@/features/auth/presentation/components/AuthTextField';
+import { SocialLoginButton } from '@/features/auth/presentation/components/SocialLoginButton';
+import { useLoginScreen } from '@/features/auth/presentation/hooks/useLoginScreen';
 
 export function LoginScreen() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [shouldRememberSession, setShouldRememberSession] = useState(false);
+    const login = useLoginScreen();
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.select({ ios: 'padding', android: undefined })}
-            style={styles.root}
-        >
+        <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
-            <ScrollView
-                contentContainerStyle={styles.content}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                style={styles.keyboardView}
             >
-                <View style={styles.topBar}>
-                    <Text style={styles.brand}>Cookly</Text>
-                    <Text accessibilityLabel="Cookly menu" style={styles.menuIcon}>
-                        []
-                    </Text>
-                </View>
-
-                <View style={styles.heroGlow} />
-
-                <View style={styles.screenBody}>
-                    <View style={styles.logoBadge}>
-                        <Text style={styles.logoText}>C</Text>
+                <ScrollView
+                    contentContainerStyle={styles.content}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.header}>
+                        <Text style={styles.appName}>Cookly</Text>
+                        <Text style={styles.headerIcon}>[]</Text>
                     </View>
 
-                    <Text style={styles.title}>Welcome Back</Text>
-                    <Text style={styles.subtitle}>
-                        Your smart pantry and kitchen assistant is ready to help you reduce waste.
-                    </Text>
+                    <View style={styles.hero}>
+                        <View style={styles.logoCircle}>
+                            <Text style={styles.logoText}>||</Text>
+                        </View>
+                        <Text style={styles.title}>Welcome Back</Text>
+                        <Text style={styles.subtitle}>
+                            Your smart pantry and kitchen assistant is ready to help you reduce waste.
+                        </Text>
+                    </View>
 
                     <View style={styles.card}>
-                        <AuthTextInput
-                            accessibilityLabel="Email address"
+                        <AuthTextField
                             autoCapitalize="none"
                             autoComplete="email"
-                            inputMode="email"
+                            error={login.errors.email}
+                            keyboardType="email-address"
                             label="Email Address"
-                            leadingIcon="@"
-                            onChangeText={setEmail}
+                            leadingIcon={<Text style={styles.fieldIcon}>@</Text>}
+                            onChangeText={login.setEmail}
                             placeholder="chef@cookly.app"
                             textContentType="emailAddress"
-                            value={email}
+                            value={login.email}
                         />
 
-                        <AuthTextInput
-                            accessibilityLabel="Password"
+                        <AuthTextField
                             autoCapitalize="none"
-                            helperActionLabel="Forgot Password?"
+                            autoComplete="password"
+                            error={login.errors.password}
+                            inputActionLabel={login.isPasswordVisible ? 'HIDE' : 'SHOW'}
                             label="Password"
-                            leadingIcon="#"
-                            onChangeText={setPassword}
-                            onHelperActionPress={emptyAction}
-                            onTrailingActionPress={() => setIsPasswordVisible((value) => !value)}
-                            placeholder="********"
-                            secureTextEntry={!isPasswordVisible}
+                            leadingIcon={<Text style={styles.fieldIcon}>#</Text>}
+                            onChangeText={login.setPassword}
+                            onInputActionPress={login.togglePasswordVisibility}
+                            onTrailingPress={login.handleForgotPassword}
+                            placeholder="Password"
+                            secureTextEntry={!login.isPasswordVisible}
                             textContentType="password"
-                            trailingActionLabel={isPasswordVisible ? 'Hide' : 'Show'}
-                            value={password}
+                            trailingLabel="Forgot Password?"
+                            value={login.password}
                         />
 
-                        <AuthToggle
-                            label="Keep me logged in"
-                            onValueChange={setShouldRememberSession}
-                            value={shouldRememberSession}
-                        />
+                        <Pressable
+                            accessibilityRole="switch"
+                            accessibilityState={{ checked: login.keepLoggedIn }}
+                            accessibilityLabel="Keep me logged in"
+                            onPress={() => login.setKeepLoggedIn(!login.keepLoggedIn)}
+                            style={styles.keepLoggedInRow}
+                        >
+                            <View
+                                style={[
+                                    styles.toggleTrack,
+                                    login.keepLoggedIn ? styles.toggleTrackOn : null,
+                                ]}
+                            >
+                                <View
+                                    style={[
+                                        styles.toggleThumb,
+                                        login.keepLoggedIn ? styles.toggleThumbOn : null,
+                                    ]}
+                                />
+                            </View>
+                            <Text style={styles.keepLoggedInLabel}>Keep me logged in</Text>
+                        </Pressable>
 
-                        <AuthButton label="Login to Kitchen ->" onPress={emptyAction} />
+                        <AuthPrimaryButton label="Login to Kitchen" onPress={login.handleSubmit} />
 
                         <View style={styles.dividerRow}>
                             <View style={styles.divider} />
@@ -97,114 +109,137 @@ export function LoginScreen() {
                         </View>
 
                         <View style={styles.socialRow}>
-                            <View style={styles.socialButton}>
-                                <AuthButton icon="G" label="Google" onPress={emptyAction} variant="outline" />
-                            </View>
-                            <View style={styles.socialButton}>
-                                <AuthButton icon="A" label="Apple" onPress={emptyAction} variant="outline" />
-                            </View>
+                            <SocialLoginButton provider="Google" onPress={login.handleGoogleLogin} />
+                            <SocialLoginButton provider="Apple" onPress={login.handleAppleLogin} />
                         </View>
                     </View>
 
-                    <View style={styles.footer}>
-                        <Text style={styles.footerText}>Don't have an account?</Text>
-                        <AuthButton label="Register Now" onPress={emptyAction} variant="link" />
+                    <View style={styles.registerRow}>
+                        <Text style={styles.registerText}>Don't have an account?</Text>
+                        <Pressable
+                            accessibilityRole="button"
+                            accessibilityLabel="Register now"
+                            onPress={login.handleRegister}
+                        >
+                            <Text style={styles.registerLink}>Register Now</Text>
+                        </Pressable>
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    root: {
+    safeArea: {
         backgroundColor: colors.background,
+        flex: 1,
+    },
+    keyboardView: {
         flex: 1,
     },
     content: {
         flexGrow: 1,
-        minHeight: '100%',
+        paddingBottom: spacing.xl,
     },
-    topBar: {
+    header: {
         alignItems: 'center',
-        backgroundColor: '#17120F',
+        backgroundColor: '#18120D',
         flexDirection: 'row',
-        height: 42,
         justifyContent: 'space-between',
         paddingHorizontal: spacing.md,
+        paddingVertical: spacing.sm,
     },
-    brand: {
+    appName: {
         color: colors.primary,
         fontSize: typography.subtitle,
-        fontWeight: '800',
-    },
-    menuIcon: {
-        color: colors.primary,
-        fontSize: typography.body,
         fontWeight: '900',
     },
-    heroGlow: {
-        backgroundColor: colors.primaryMuted,
-        borderRadius: radius.pill,
-        height: 260,
-        left: -40,
-        opacity: 0.16,
-        position: 'absolute',
-        right: -40,
-        top: 40,
+    headerIcon: {
+        color: colors.primary,
+        fontSize: typography.label,
+        fontWeight: '900',
     },
-    screenBody: {
+    hero: {
         alignItems: 'center',
-        flex: 1,
-        paddingBottom: spacing.lg,
-        paddingHorizontal: spacing.md,
-        paddingTop: spacing.xl + spacing.sm,
+        paddingHorizontal: spacing.xl,
+        paddingTop: 40,
     },
-    logoBadge: {
+    logoCircle: {
         alignItems: 'center',
         backgroundColor: colors.primaryMuted,
-        borderColor: colors.border,
         borderRadius: radius.pill,
-        borderWidth: 1,
-        height: 48,
+        height: 43,
         justifyContent: 'center',
         marginBottom: spacing.md,
-        width: 48,
+        width: 43,
     },
     logoText: {
         color: colors.primary,
-        fontSize: typography.title,
+        fontSize: typography.subtitle,
         fontWeight: '900',
     },
     title: {
         color: colors.text,
         fontSize: typography.title,
         fontWeight: '900',
-        marginBottom: spacing.sm,
-        textAlign: 'center',
+        marginBottom: spacing.xs,
     },
     subtitle: {
         color: colors.textMuted,
-        fontSize: typography.label,
-        lineHeight: 20,
-        marginBottom: spacing.lg,
-        maxWidth: 300,
+        fontSize: typography.caption,
+        lineHeight: 18,
         textAlign: 'center',
     },
     card: {
         backgroundColor: colors.backgroundElevated,
         borderColor: colors.borderMuted,
-        borderRadius: radius.md,
+        borderRadius: radius.sm,
         borderWidth: 1,
         gap: spacing.md,
-        padding: spacing.lg,
-        width: '100%',
+        marginHorizontal: spacing.md,
+        marginTop: spacing.lg,
+        padding: 20,
+    },
+    fieldIcon: {
+        color: colors.textMuted,
+        fontSize: typography.label,
+        fontWeight: '900',
+    },
+    keepLoggedInRow: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: spacing.sm,
+    },
+    toggleTrack: {
+        backgroundColor: colors.backgroundMuted,
+        borderRadius: radius.pill,
+        height: 20,
+        justifyContent: 'center',
+        paddingHorizontal: 2,
+        width: 38,
+    },
+    toggleTrackOn: {
+        backgroundColor: colors.primaryMuted,
+    },
+    toggleThumb: {
+        backgroundColor: colors.white,
+        borderRadius: radius.pill,
+        height: 16,
+        width: 16,
+    },
+    toggleThumbOn: {
+        alignSelf: 'flex-end',
+    },
+    keepLoggedInLabel: {
+        color: colors.textMuted,
+        fontSize: typography.caption,
     },
     dividerRow: {
         alignItems: 'center',
         flexDirection: 'row',
         gap: spacing.md,
-        paddingVertical: spacing.sm,
+        marginTop: spacing.md,
     },
     divider: {
         backgroundColor: colors.border,
@@ -213,25 +248,27 @@ const styles = StyleSheet.create({
     },
     dividerText: {
         color: colors.textSubtle,
-        fontSize: typography.caption,
+        fontSize: 11,
         fontWeight: '700',
     },
     socialRow: {
         flexDirection: 'row',
-        gap: spacing.sm,
+        gap: spacing.md,
     },
-    socialButton: {
-        flex: 1,
-    },
-    footer: {
+    registerRow: {
         alignItems: 'center',
         flexDirection: 'row',
         gap: spacing.xs,
         justifyContent: 'center',
         marginTop: spacing.lg,
     },
-    footerText: {
+    registerText: {
         color: colors.textMuted,
         fontSize: typography.caption,
+    },
+    registerLink: {
+        color: colors.primary,
+        fontSize: typography.caption,
+        fontWeight: '900',
     },
 });

@@ -1,5 +1,5 @@
 import { MigrationRunner } from '@/infrastructure/database';
 
-export function initializeDatabase() {
+export function initializeDatabase(): void {
     MigrationRunner.run();
 }
