@@ -1,0 +1,99 @@
+---
+alwaysApply: true
+---
+---
+description: Architecture enforcement
+globs:
+alwaysApply: true
+---
+
+# Architecture Rules
+
+## General
+
+Always respect the project's architecture.
+
+Do not introduce new architectural patterns without approval.
+
+## Separation of Concerns
+
+- UI renders.
+- Hooks orchestrate.
+- Use Cases contain business logic.
+- Repositories access data.
+- Services communicate with external systems.
+
+Never mix responsibilities.
+
+## Reuse
+
+Before creating:
+
+- Component
+- Hook
+- Service
+- Repository
+- Utility
+
+Search for an existing implementation.
+
+Reuse whenever possible.
+
+## Dependencies
+
+Dependencies should point inward.
+
+UI → Application → Domain → Infrastructure
+
+Never reverse this direction.
+
+## Feature Isolation
+
+A feature should not directly depend on another feature.
+
+Shared functionality belongs in shared/core modules.
+
+## State Management
+
+Global state is only for shared application state.
+
+Keep temporary UI state local.
+
+## Data Access
+
+UI must never directly access:
+
+- Database
+- API
+- Local Storage
+- File System
+
+Always use repositories or services.
+
+## Components
+
+Components should:
+
+- Be reusable.
+- Receive data through props.
+- Avoid business logic.
+- Be as stateless as possible.
+
+## Code Organization
+
+Prefer:
+
+- Small files.
+- Small functions.
+- Small components.
+
+Avoid large files with multiple responsibilities.
+
+## AI Validation
+
+Before generating code verify:
+
+1. Architecture is respected.
+2. Existing implementation can be reused.
+3. No duplicated logic is introduced.
+4. Layer responsibilities remain intact.

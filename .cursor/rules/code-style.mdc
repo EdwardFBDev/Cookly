@@ -1,0 +1,147 @@
+---
+alwaysApply: true
+---
+---
+description: Code style and quality rules
+globs:
+alwaysApply: true
+---
+
+# Code Style Rules
+
+## General
+
+Write production-ready code.
+
+Prioritize:
+
+- Readability
+- Simplicity
+- Maintainability
+- Reusability
+
+## Clean Code
+
+- Follow SOLID principles.
+- Apply DRY.
+- Apply KISS.
+- Apply YAGNI.
+- Keep code self-explanatory.
+
+## File Size
+
+Recommended limits:
+
+- File: < 300 lines
+- Function: < 40 lines
+- Component: < 200 lines
+
+Split large files when necessary.
+
+## Functions
+
+Functions should:
+
+- Have one responsibility.
+- Be small.
+- Have descriptive names.
+- Avoid side effects.
+
+Prefer early returns over nested conditions.
+
+## Components
+
+Components should:
+
+- Focus on rendering.
+- Receive data via props.
+- Avoid business logic.
+- Be reusable.
+
+## Naming
+
+Use descriptive names.
+
+Components:
+
+PascalCase
+
+Hooks:
+
+useSomething
+
+Functions:
+
+camelCase
+
+Constants:
+
+UPPER_SNAKE_CASE
+
+Types:
+
+PascalCase
+
+Interfaces:
+
+PascalCase
+
+Enums:
+
+PascalCase
+
+Folders:
+
+lowercase
+
+## Imports
+
+Order imports:
+
+1. External packages
+2. Internal modules
+3. Relative imports
+
+Remove unused imports.
+
+Avoid circular dependencies.
+
+## Comments
+
+Write self-documenting code.
+
+Only comment:
+
+- Business rules
+- Complex algorithms
+- Non-obvious decisions
+
+Avoid redundant comments.
+
+## Error Handling
+
+Never ignore errors.
+
+Avoid:
+
+- Empty catch blocks
+- Silent failures
+
+Return meaningful error messages.
+
+## Dependencies
+
+Do not add dependencies unless:
+
+- Existing tools cannot solve the problem.
+- There is a clear technical justification.
+
+## AI Behavior
+
+When generating code:
+
+- Match the existing coding style.
+- Prefer consistency over personal preference.
+- Do not reformat unrelated code.
+- Do not introduce unnecessary abstractions.
+- Keep implementations minimal.

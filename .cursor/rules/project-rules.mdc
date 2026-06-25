@@ -1,0 +1,61 @@
+---
+alwaysApply: true
+---
+---
+description: Global project rules
+globs:
+alwaysApply: true
+---
+
+# Project Rules
+
+## General
+
+- Follow Spec-Driven Development (SDD).
+- Never implement features without an approved spec.
+- Modify only files required for the current task.
+- Do not invent requirements.
+- Reuse existing components before creating new ones.
+
+## Architecture
+
+- Respect project architecture.
+- Keep business logic outside UI.
+- Use dependency inversion when applicable.
+- Avoid duplicate code.
+
+## Development
+
+- Keep changes small.
+- One responsibility per file.
+- Prefer composition over inheritance.
+- Follow project naming conventions.
+
+## AI Behavior
+
+Before generating code:
+
+1. Read the current spec.
+2. Read related architecture.
+3. Read related design documentation.
+4. Search for reusable code.
+
+Never:
+
+- Refactor unrelated code.
+- Add dependencies without justification.
+- Modify unrelated features.
+
+## Git Operations
+
+Never execute Git commands automatically.
+
+The AI may suggest Git commands, but all Git operations must be explicitly requested by the developer.
+
+## Output
+
+Generate production-ready code.
+
+Avoid placeholders unless explicitly requested.
+
+Keep explanations concise.

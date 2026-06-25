@@ -1,0 +1,115 @@
+---
+alwaysApply: true
+---
+---
+description: Feature implementation workflow
+globs:
+alwaysApply: true
+---
+
+# Feature Development Rules
+
+## Objective
+
+Implement only the requested feature.
+
+Do not expand the scope.
+
+---
+
+## Before Coding
+
+Verify:
+
+- Feature specification exists.
+- Acceptance criteria are defined.
+- Architecture is understood.
+- Required files are identified.
+
+If information is missing, ask before implementing.
+
+---
+
+## Implementation Strategy
+
+Implement the feature incrementally.
+
+Recommended order:
+
+1. Types
+2. Models
+3. Repository
+4. Service
+5. Use Case
+6. Store
+7. Hook
+8. UI Components
+9. Screen
+10. Navigation
+11. Tests
+
+Skip layers that are not required.
+
+---
+
+## Scope
+
+Modify only files related to the current feature.
+
+Avoid:
+
+- Refactoring unrelated code.
+- Renaming unrelated files.
+- Formatting unrelated code.
+- Changing project architecture.
+
+---
+
+## Reuse
+
+Before creating:
+
+- Component
+- Hook
+- Store
+- Repository
+- Utility
+
+Search the project for an existing implementation.
+
+Reuse whenever possible.
+
+---
+
+## Validation
+
+Before finishing verify:
+
+- Specification implemented.
+- Acceptance criteria satisfied.
+- No duplicated logic.
+- No unnecessary complexity.
+- Architecture respected.
+
+---
+
+## Output
+
+Generate:
+
+- Production-ready code.
+- Minimal explanations.
+- No placeholder implementations unless requested.
+- Clear TODO comments only when integration depends on future work.
+
+---
+
+## Completion Checklist
+
+A feature is complete when:
+
+- Implementation finished.
+- Code compiles.
+- Tests added or updated when applicable.
+- Documentation updated if required.
+- Ready for code review.

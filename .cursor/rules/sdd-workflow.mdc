@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+---
+---
+description: Spec-Driven Development workflow
+globs:
+alwaysApply: true
+---
+
+# SDD Workflow
+
+## Core Rule
+
+No code should be generated without an approved feature spec.
+
+## Required Feature Files
+
+Each feature should include:
+
+- spec.md
+- tasks.md
+- acceptance-criteria.md
+- test-plan.md
+
+## Before Implementation
+
+Verify:
+
+1. Feature scope is clear.
+2. Acceptance criteria exist.
+3. Required files are identified.
+4. Architecture impact is understood.
+
+## During Implementation
+
+- Work task by task.
+- Do not expand scope.
+- Do not implement future features.
+- Do not change unrelated files.
+- Ask for clarification when the spec is incomplete.
+
+## After Implementation
+
+Verify:
+
+- Acceptance criteria are met.
+- Tests are added or justified.
+- Documentation is updated if needed.
+- No unrelated changes were made.
