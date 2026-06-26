@@ -1,4 +1,140 @@
 {
     "version": "1.0.0",
-    "recipes": []
+    "recipes": [
+      {
+        "id": "recipe_001",
+        "name": "Chicken Fried Rice",
+        "description": "Classic fried rice with chicken and vegetables.",
+        "category": "Lunch",
+        "cuisine": "Asian",
+        "difficulty": "Easy",
+        "prepTime": 15,
+        "cookTime": 20,
+        "servings": 2,
+        "image": "images/chicken_fried_rice.jpg",
+        "tags": ["High Protein", "Quick"],
+        "ingredients": [
+          { "name": "Chicken Breast", "quantity": 300, "unit": "g" },
+          { "name": "Cooked Rice", "quantity": 2, "unit": "cup" },
+          { "name": "Carrot", "quantity": 1, "unit": "unit" },
+          { "name": "Egg", "quantity": 2, "unit": "unit" },
+          { "name": "Soy Sauce", "quantity": 2, "unit": "tbsp" }
+        ],
+        "steps": [
+          "Cook the chicken until golden.",
+          "Scramble the eggs.",
+          "Add vegetables and cook for 5 minutes.",
+          "Add rice and soy sauce.",
+          "Mix everything together and serve."
+        ]
+      },
+      {
+        "id": "recipe_002",
+        "name": "Spaghetti Bolognese",
+        "description": "Traditional spaghetti with meat sauce.",
+        "category": "Dinner",
+        "cuisine": "Italian",
+        "difficulty": "Easy",
+        "prepTime": 15,
+        "cookTime": 30,
+        "servings": 4,
+        "image": "images/spaghetti_bolognese.jpg",
+        "tags": ["Family"],
+        "ingredients": [
+          { "name": "Ground Beef", "quantity": 500, "unit": "g" },
+          { "name": "Spaghetti", "quantity": 400, "unit": "g" },
+          { "name": "Tomato Sauce", "quantity": 500, "unit": "ml" },
+          { "name": "Onion", "quantity": 1, "unit": "unit" },
+          { "name": "Garlic", "quantity": 2, "unit": "clove" }
+        ],
+        "steps": [
+          "Cook the pasta.",
+          "Brown the beef.",
+          "Add onion and garlic.",
+          "Pour tomato sauce.",
+          "Serve over pasta."
+        ]
+      },
+      {
+        "id": "recipe_003",
+        "name": "Grilled Chicken Salad",
+        "description": "Fresh salad with grilled chicken.",
+        "category": "Lunch",
+        "cuisine": "Mediterranean",
+        "difficulty": "Easy",
+        "prepTime": 15,
+        "cookTime": 15,
+        "servings": 2,
+        "image": "images/grilled_chicken_salad.jpg",
+        "tags": ["Healthy", "Low Carb"],
+        "ingredients": [
+          { "name": "Chicken Breast", "quantity": 250, "unit": "g" },
+          { "name": "Lettuce", "quantity": 1, "unit": "head" },
+          { "name": "Tomato", "quantity": 2, "unit": "unit" },
+          { "name": "Cucumber", "quantity": 1, "unit": "unit" },
+          { "name": "Olive Oil", "quantity": 2, "unit": "tbsp" }
+        ],
+        "steps": [
+          "Grill the chicken.",
+          "Chop the vegetables.",
+          "Slice the chicken.",
+          "Mix everything together.",
+          "Dress with olive oil."
+        ]
+      },
+      {
+        "id": "recipe_004",
+        "name": "Beef Tacos",
+        "description": "Mexican tacos filled with seasoned beef.",
+        "category": "Dinner",
+        "cuisine": "Mexican",
+        "difficulty": "Easy",
+        "prepTime": 10,
+        "cookTime": 20,
+        "servings": 4,
+        "image": "images/beef_tacos.jpg",
+        "tags": ["Quick"],
+        "ingredients": [
+          { "name": "Ground Beef", "quantity": 500, "unit": "g" },
+          { "name": "Tortillas", "quantity": 8, "unit": "unit" },
+          { "name": "Lettuce", "quantity": 1, "unit": "cup" },
+          { "name": "Cheddar Cheese", "quantity": 100, "unit": "g" },
+          { "name": "Tomato", "quantity": 2, "unit": "unit" }
+        ],
+        "steps": [
+          "Cook the beef.",
+          "Warm the tortillas.",
+          "Prepare toppings.",
+          "Assemble tacos.",
+          "Serve immediately."
+        ]
+      },
+      {
+        "id": "recipe_005",
+        "name": "Vegetable Omelette",
+        "description": "Simple vegetable omelette for breakfast.",
+        "category": "Breakfast",
+        "cuisine": "International",
+        "difficulty": "Easy",
+        "prepTime": 10,
+        "cookTime": 10,
+        "servings": 1,
+        "image": "images/vegetable_omelette.jpg",
+        "tags": ["Vegetarian", "High Protein"],
+        "ingredients": [
+          { "name": "Egg", "quantity": 3, "unit": "unit" },
+          { "name": "Bell Pepper", "quantity": 0.5, "unit": "unit" },
+          { "name": "Onion", "quantity": 0.5, "unit": "unit" },
+          { "name": "Spinach", "quantity": 1, "unit": "cup" },
+          { "name": "Cheddar Cheese", "quantity": 50, "unit": "g" }
+        ],
+        "steps": [
+          "Beat the eggs.",
+          "Cook the vegetables.",
+          "Pour eggs into the pan.",
+          "Add cheese.",
+          "Fold the omelette and serve."
+        ]
+      }
+    ]
   }
