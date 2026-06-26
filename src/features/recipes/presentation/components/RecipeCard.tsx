@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
 import { Recipe } from '@/features/recipes/domain/RecipeModels';
 import { CooklyIcon } from '@/shared/presentation/components/CooklyUI';
+
+const DEFAULT_RECIPE_CARD_IMAGE_URL =
+    'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80';
 
 type RecipeCardProps = {
     recipe: Recipe;
@@ -18,6 +22,10 @@ export function RecipeCard({
     showEditableBadge = false,
 }: RecipeCardProps) {
     const progressColor = recipe.missingIngredientCount > 0 ? '#FF9900' : '#3FD05F';
+    const recipeImageUrl = getRecipeCardImageUrl(recipe.imageUrl);
+    const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
+    const imageSourceUrl =
+        failedImageUrl === recipeImageUrl ? DEFAULT_RECIPE_CARD_IMAGE_URL : recipeImageUrl;
 
     return (
         <Pressable
@@ -28,7 +36,8 @@ export function RecipeCard({
         >
             <ImageBackground
                 imageStyle={styles.image}
-                source={{ uri: recipe.imageUrl }}
+                onError={() => setFailedImageUrl(recipeImageUrl)}
+                source={{ uri: imageSourceUrl }}
                 style={[styles.imageFrame, { backgroundColor: recipe.accentColor }]}
             >
                 <View style={styles.imageScrim} />
@@ -212,4 +221,10 @@ function formatRecipeCategory(category: Recipe['category']): string {
     }
 
     return 'Dinner';
+}
+
+function getRecipeCardImageUrl(imageUrl?: string): string {
+    const normalizedImageUrl = imageUrl?.trim();
+
+    return normalizedImageUrl ? normalizedImageUrl : DEFAULT_RECIPE_CARD_IMAGE_URL;
 }
