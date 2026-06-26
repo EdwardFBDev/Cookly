@@ -111,7 +111,7 @@ export function RecipeDetailScreen() {
             <View style={styles.footer}>
                 <Pressable
                     accessibilityRole="button"
-                    onPress={() => navigation.showCookMode(recipe.title)}
+                    onPress={() => navigation.goCookingReview(recipe.id)}
                     style={styles.cookButton}
                 >
                     <Text style={styles.cookButtonText}>Cook Recipe</Text>

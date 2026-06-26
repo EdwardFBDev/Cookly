@@ -9,6 +9,10 @@ import {
     InventoryLocation,
 } from '@/features/inventory/domain/InventoryModels';
 import { useEditIngredientScreen } from '@/features/inventory/presentation/hooks/useEditIngredientScreen';
+import {
+    CooklyIcon,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 type EditIngredientScreenProps = {
     ingredientId: string;
@@ -40,19 +44,13 @@ export function EditIngredientScreen({ ingredientId }: EditIngredientScreenProps
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" onPress={screen.navigation.goBack}>
-                        <Text style={styles.headerIcon}>{'<'}</Text>
-                    </Pressable>
-                    <Text style={styles.title}>Edit Ingredient</Text>
-                    <Text style={styles.headerIcon}>...</Text>
-                </View>
+                <CooklyTopAppBar onBackPress={screen.navigation.goBack} title="Edit Ingredient" />
 
                 <View style={styles.hero}>
                     <Text style={styles.heroTitle}>{screen.ingredient.name}</Text>
                     <Text style={styles.heroSubtitle}>Ingredient Detail</Text>
                     <View style={styles.cameraButton}>
-                        <Text style={styles.cameraText}>C</Text>
+                        <CooklyIcon color={colors.inputBackground} name="edit" size={typography.label} />
                     </View>
                 </View>
 

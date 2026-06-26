@@ -2,6 +2,7 @@ import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native
 
 import { colors, radius, spacing, typography } from '@/app/theme';
 import { Recipe } from '@/features/recipes/domain/RecipeModels';
+import { CooklyIcon } from '@/shared/presentation/components/CooklyUI';
 
 type RecipeCardProps = {
     recipe: Recipe;
@@ -52,7 +53,10 @@ export function RecipeCard({
                         onPress={onFavoritePress}
                         style={styles.favoriteButton}
                     >
-                        <Text style={styles.favoriteText}>{recipe.isFavorite ? '*' : '+'}</Text>
+                        <CooklyIcon
+                            name={recipe.isFavorite ? 'check' : 'add'}
+                            size={typography.label}
+                        />
                     </Pressable>
                 ) : null}
             </ImageBackground>
@@ -146,11 +150,6 @@ const styles = StyleSheet.create({
         right: spacing.sm,
         top: spacing.sm,
         width: 32,
-    },
-    favoriteText: {
-        color: colors.primary,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
     },
     body: {
         gap: spacing.sm,

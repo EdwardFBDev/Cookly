@@ -7,6 +7,11 @@ import { HomeBottomNavigation } from '@/features/home/presentation/components/Ho
 import { InventoryStatusBadge } from '@/features/inventory/presentation/components/InventoryStatusBadge';
 import { useIngredientDetailScreen } from '@/features/inventory/presentation/hooks/useIngredientDetailScreen';
 import { formatIngredientQuantity } from '@/features/inventory/presentation/utils/ingredientDisplay';
+import {
+    CooklyIcon,
+    CooklyIconButton,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 type IngredientDetailScreenProps = {
     ingredientId: string;
@@ -42,32 +47,30 @@ export function IngredientDetailScreen({ ingredientId }: IngredientDetailScreenP
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" onPress={screen.navigation.goInventory}>
-                        <Text style={styles.headerIcon}>{'<'}</Text>
-                    </Pressable>
-                    <Text style={styles.title}>{ingredient.name}</Text>
-                    <View style={styles.headerActions}>
-                        <Pressable
-                            accessibilityRole="button"
-                            onPress={() => screen.navigation.goEditIngredient(ingredient.id)}
-                        >
-                            <Text style={styles.headerIcon}>E</Text>
-                        </Pressable>
-                        <Pressable
-                            accessibilityRole="button"
-                            onPress={() => screen.showFutureAction('Share ingredient')}
-                        >
-                            <Text style={styles.headerIcon}>S</Text>
-                        </Pressable>
-                    </View>
-                </View>
+                <CooklyTopAppBar
+                    onBackPress={screen.navigation.goInventory}
+                    rightAccessory={
+                        <>
+                            <CooklyIconButton
+                                accessibilityLabel="Edit ingredient"
+                                icon="edit"
+                                onPress={() => screen.navigation.goEditIngredient(ingredient.id)}
+                            />
+                            <CooklyIconButton
+                                accessibilityLabel="Share ingredient"
+                                icon="shopping"
+                                onPress={() => screen.showFutureAction('Share ingredient')}
+                            />
+                        </>
+                    }
+                    title={ingredient.name}
+                />
 
                 <View style={styles.hero}>
                     <View style={styles.heroBadge}>
                         <InventoryStatusBadge status={ingredient.status} />
                     </View>
-                    <Text style={styles.heroIcon}>{ingredient.name.charAt(0)}</Text>
+                    <CooklyIcon name="inventory" size={42} />
                 </View>
 
                 <View style={styles.metricGrid}>
@@ -79,7 +82,7 @@ export function IngredientDetailScreen({ ingredientId }: IngredientDetailScreenP
 
                 <View style={styles.smartImpactCard}>
                     <View style={styles.smartImpactHeader}>
-                        <Text style={styles.smartImpactIcon}>R</Text>
+                        <CooklyIcon name="recipes" size={typography.label} />
                         <Text style={styles.smartImpactTitle}>Smart Impact</Text>
                     </View>
                     <Text style={styles.smartImpactText}>
@@ -91,7 +94,7 @@ export function IngredientDetailScreen({ ingredientId }: IngredientDetailScreenP
                         onPress={() => screen.showFutureAction('Recipe recommendations')}
                         style={styles.linkButton}
                     >
-                        <Text style={styles.linkText}>View Recipes {'->'}</Text>
+                        <Text style={styles.linkText}>View Recipes</Text>
                     </Pressable>
                 </View>
 
@@ -118,7 +121,7 @@ export function IngredientDetailScreen({ ingredientId }: IngredientDetailScreenP
                         }}
                         style={styles.iconButton}
                     >
-                        <Text style={styles.secondaryButtonText}>D</Text>
+                        <CooklyIcon color="#F0A5AD" name="close" size={typography.caption} />
                     </Pressable>
                 </View>
             </ScrollView>
@@ -128,6 +131,7 @@ export function IngredientDetailScreen({ ingredientId }: IngredientDetailScreenP
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />

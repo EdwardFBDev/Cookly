@@ -15,6 +15,7 @@ import { AuthPrimaryButton } from '@/features/auth/presentation/components/AuthP
 import { AuthTextField } from '@/features/auth/presentation/components/AuthTextField';
 import { SocialLoginButton } from '@/features/auth/presentation/components/SocialLoginButton';
 import { useLoginScreen } from '@/features/auth/presentation/hooks/useLoginScreen';
+import { CooklyIcon } from '@/shared/presentation/components/CooklyUI';
 
 export function LoginScreen() {
     const login = useLoginScreen();
@@ -33,7 +34,7 @@ export function LoginScreen() {
                 >
                     <View style={styles.header}>
                         <Text style={styles.appName}>Cookly</Text>
-                        <Text style={styles.headerIcon}>[]</Text>
+                        <CooklyIcon name="settings" size={typography.subtitle} />
                     </View>
 
                     <View style={styles.hero}>

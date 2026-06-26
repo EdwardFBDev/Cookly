@@ -10,6 +10,12 @@ import {
     useExpiringIngredientsScreen,
 } from '@/features/inventory/presentation/hooks/useExpiringIngredientsScreen';
 import { formatIngredientQuantity } from '@/features/inventory/presentation/utils/ingredientDisplay';
+import {
+    CooklyFab,
+    CooklyIcon,
+    CooklyIconButton,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function ExpiringIngredientsScreen() {
     const screen = useExpiringIngredientsScreen();
@@ -18,13 +24,18 @@ export function ExpiringIngredientsScreen() {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" onPress={screen.navigation.goInventory}>
-                        <Text style={styles.locationIcon}>P</Text>
-                    </Pressable>
-                    <Text style={styles.headerTitle}>Inventory</Text>
-                    <Text style={styles.searchIcon}>Q</Text>
-                </View>
+                <CooklyTopAppBar
+                    locationLabel={screen.selectedLocation}
+                    onBackPress={screen.navigation.goInventory}
+                    rightAccessory={
+                        <CooklyIconButton
+                            accessibilityLabel="Search inventory"
+                            icon="search"
+                            onPress={screen.navigation.goSearch}
+                        />
+                    }
+                    title="Inventory"
+                />
 
                 <View>
                     <Text style={styles.title}>Expiring Soon</Text>
@@ -52,20 +63,14 @@ export function ExpiringIngredientsScreen() {
                 )}
             </ScrollView>
 
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Add ingredient"
-                onPress={screen.navigation.goAddIngredient}
-                style={styles.fab}
-            >
-                <Text style={styles.fabText}>+</Text>
-            </Pressable>
+            <CooklyFab onPress={screen.navigation.goAddIngredient} />
 
             <HomeBottomNavigation
                 activeTab="inventory"
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />
@@ -137,7 +142,7 @@ function ExpiringCard({
         >
             <View style={styles.cardBody}>
                 <View style={styles.itemImage}>
-                    <Text style={styles.itemImageText}>{ingredient.name.charAt(0)}</Text>
+                    <CooklyIcon name="inventory" size={typography.label} />
                 </View>
                 <View style={styles.itemInfo}>
                     <Text style={styles.itemName}>{ingredient.name}</Text>
@@ -174,27 +179,6 @@ const styles = StyleSheet.create({
         gap: spacing.md,
         padding: spacing.md,
         paddingBottom: 116,
-    },
-    header: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        gap: spacing.sm,
-    },
-    locationIcon: {
-        color: colors.primary,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
-    },
-    headerTitle: {
-        color: colors.primary,
-        flex: 1,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
-    },
-    searchIcon: {
-        color: colors.text,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
     },
     title: {
         color: colors.text,
@@ -272,11 +256,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 58,
     },
-    itemImageText: {
-        color: colors.primary,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
-    },
     itemInfo: {
         flex: 1,
     },
@@ -348,21 +327,5 @@ const styles = StyleSheet.create({
         color: colors.textMuted,
         fontSize: typography.caption,
         textAlign: 'center',
-    },
-    fab: {
-        alignItems: 'center',
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        bottom: 76,
-        height: 48,
-        justifyContent: 'center',
-        position: 'absolute',
-        right: spacing.md,
-        width: 48,
-    },
-    fabText: {
-        color: colors.inputBackground,
-        fontSize: typography.title,
-        fontWeight: '900',
     },
 });

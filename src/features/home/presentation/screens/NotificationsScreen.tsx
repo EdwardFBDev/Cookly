@@ -8,6 +8,7 @@ import { HomeBottomNavigation } from '@/features/home/presentation/components/Ho
 import { HomeCard } from '@/features/home/presentation/components/HomeCard';
 import { HomeHeader } from '@/features/home/presentation/components/HomeHeader';
 import { useNotificationsScreen } from '@/features/home/presentation/hooks/useNotificationsScreen';
+import { CooklyIcon } from '@/shared/presentation/components/CooklyUI';
 
 export function NotificationsScreen() {
     const screen = useNotificationsScreen();
@@ -37,7 +38,7 @@ export function NotificationsScreen() {
                                         notification.isUrgent ? styles.urgentIconBox : null,
                                     ]}
                                 >
-                                    <Text style={styles.iconText}>!</Text>
+                                    <CooklyIcon name="warning" size={typography.label} />
                                 </View>
                                 <View style={styles.flex}>
                                     <Text style={styles.notificationTitle}>{notification.title}</Text>
@@ -106,6 +107,7 @@ export function NotificationsScreen() {
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />

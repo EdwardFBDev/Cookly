@@ -61,9 +61,9 @@ const INITIAL_RECIPES: Recipe[] = [
         isOwned: false,
         ingredients: [
             { id: 'pasta', name: 'Pasta (Pappardelle)', quantityLabel: '250g', availability: 'available' },
-            { id: 'garlic', name: 'Garlic Cloves', quantityLabel: '3 units', availability: 'available' },
+            { id: 'mushrooms', name: 'Cremini Mushrooms', quantityLabel: '300g', availability: 'available' },
             { id: 'cream', name: 'Heavy Cream', quantityLabel: '200ml', availability: 'available' },
-            { id: 'parsley', name: 'Fresh Parsley', quantityLabel: 'Missing', availability: 'missing' },
+            { id: 'parsley', name: 'Fresh Parsley', quantityLabel: '15g', availability: 'available' },
         ],
         steps: [
             {

@@ -3,11 +3,15 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
-import { HomeActionButton } from '@/features/home/presentation/components/HomeActionButton';
 import { HomeBottomNavigation } from '@/features/home/presentation/components/HomeBottomNavigation';
 import { HomeCard } from '@/features/home/presentation/components/HomeCard';
-import { HomeHeader } from '@/features/home/presentation/components/HomeHeader';
 import { useDashboardScreen } from '@/features/home/presentation/hooks/useDashboardScreen';
+import {
+    CooklyButton,
+    CooklyFab,
+    CooklyIcon,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function DashboardScreen() {
     const dashboard = useDashboardScreen();
@@ -16,8 +20,49 @@ export function DashboardScreen() {
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
+            <CooklyTopAppBar
+                currentLocation="Casa"
+                drawerItems={[
+                    {
+                        active: true,
+                        icon: 'profile',
+                        label: 'Profile',
+                        onPress: navigation.goSettings,
+                    },
+                    {
+                        icon: 'meal-plan',
+                        label: 'Meal Plan',
+                        onPress: navigation.goPlan,
+                    },
+                    {
+                        icon: 'recipes',
+                        label: 'My Recipes',
+                        onPress: navigation.goMyRecipes,
+                    },
+                    {
+                        icon: 'warning',
+                        label: 'Expired Items',
+                        // TODO: Apply an expired-items filter when inventory filtering supports it.
+                        onPress: navigation.goInventory,
+                        sectionLabel: 'Inventory Management',
+                    },
+                    {
+                        icon: 'inventory',
+                        label: 'Expiring Soon',
+                        onPress: navigation.goExpiringIngredients,
+                    },
+                    {
+                        icon: 'settings',
+                        label: 'Settings',
+                        onPress: navigation.goSettings,
+                    },
+                ]}
+                onLocationPress={navigation.goLocationManagement}
+                onNotificationPress={navigation.goNotifications}
+                onProfilePress={navigation.goSettings}
+                profileName="Chef Cookly"
+            />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <HomeHeader onNotificationsPress={navigation.goNotifications} />
 
                 <View style={styles.hero}>
                     <View style={styles.heroOverlay} />
@@ -38,7 +83,7 @@ export function DashboardScreen() {
                 <HomeCard>
                     <View style={styles.cardHeader}>
                         <View style={styles.warningIcon}>
-                            <Text style={styles.warningText}>!</Text>
+                                <CooklyIcon name="warning" />
                         </View>
                         <Text style={styles.warningCount}>{summary.expiringSoonCount}</Text>
                     </View>
@@ -46,7 +91,7 @@ export function DashboardScreen() {
                     <Text style={styles.cardDescription}>
                         Ingredients require immediate attention to prevent waste.
                     </Text>
-                    <HomeActionButton
+                    <CooklyButton
                         label="View Inventory"
                         onPress={navigation.goInventory}
                         variant="outline"
@@ -57,7 +102,7 @@ export function DashboardScreen() {
                     <HomeCard variant="danger">
                         <View style={styles.inlineCard}>
                             <View style={styles.roundIcon}>
-                                <Text style={styles.roundIconText}>S</Text>
+                                <CooklyIcon name="shopping" />
                             </View>
                             <View style={styles.flex}>
                                 <Text style={styles.cardTitle}>Shopping List</Text>
@@ -72,7 +117,7 @@ export function DashboardScreen() {
                     <HomeCard>
                         <View style={styles.inlineCard}>
                             <View style={styles.roundIconMuted}>
-                                <Text style={styles.roundIconText}>I</Text>
+                                <CooklyIcon name="inventory" />
                             </View>
                             <View style={styles.flex}>
                                 <Text style={styles.cardTitle}>Casa Inventory</Text>
@@ -112,20 +157,14 @@ export function DashboardScreen() {
                 </ScrollView>
             </ScrollView>
 
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Add kitchen item"
-                onPress={navigation.goInventory}
-                style={styles.fab}
-            >
-                <Text style={styles.fabText}>+</Text>
-            </Pressable>
+            <CooklyFab onPress={navigation.goInventory} />
 
             <HomeBottomNavigation
                 activeTab="home"
                 onHomePress={navigation.goHome}
                 onInventoryPress={navigation.goInventory}
                 onPlanPress={navigation.goPlan}
+                onProfilePress={navigation.goSettings}
                 onRecipesPress={navigation.goRecipes}
                 onShoppingPress={navigation.goShopping}
             />
@@ -326,21 +365,5 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         marginHorizontal: spacing.md,
         marginTop: spacing.xs,
-    },
-    fab: {
-        alignItems: 'center',
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        bottom: 76,
-        height: 54,
-        justifyContent: 'center',
-        position: 'absolute',
-        right: spacing.md,
-        width: 54,
-    },
-    fabText: {
-        color: colors.inputBackground,
-        fontSize: typography.title,
-        fontWeight: '900',
     },
 });

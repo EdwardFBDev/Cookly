@@ -5,6 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, radius, spacing, typography } from '@/app/theme';
 import { HomeBottomNavigation } from '@/features/home/presentation/components/HomeBottomNavigation';
 import { usePlanningEmptyScreen } from '@/features/planning/presentation/hooks/usePlanningEmptyScreen';
+import {
+    CooklyButton,
+    CooklyEmptyState,
+    CooklyIcon,
+    CooklyIconButton,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function PlanningEmptyScreen() {
     const screen = usePlanningEmptyScreen();
@@ -13,58 +20,27 @@ export function PlanningEmptyScreen() {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <View style={styles.header}>
-                <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel="Open profile"
-                    onPress={screen.navigation.showProfile}
-                    style={styles.profileButton}
-                >
-                    <Text style={styles.profileText}>C</Text>
-                </Pressable>
-                <Text style={styles.brand}>Cookly</Text>
-                <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel="Open planning notifications"
-                    onPress={screen.navigation.showNotifications}
-                >
-                    <Text style={styles.notificationIcon}>!</Text>
-                </Pressable>
+                <CooklyTopAppBar
+                    onNotificationPress={screen.navigation.showNotifications}
+                    rightAccessory={
+                        <CooklyIconButton
+                            accessibilityLabel="Open profile"
+                            icon="profile"
+                            onPress={screen.navigation.showProfile}
+                        />
+                    }
+                    title="Cookly"
+                />
             </View>
 
             <View style={styles.content}>
-                <View style={styles.illustrationCard}>
-                    <View style={styles.calendarBody}>
-                        <View style={styles.calendarTabs}>
-                            <View style={styles.calendarTab} />
-                            <View style={styles.calendarTab} />
-                        </View>
-                        <Text style={styles.calendarIcon}>P</Text>
-                    </View>
-                </View>
-
-                <Text style={styles.title}>No meals planned yet</Text>
-                <Text style={styles.subtitle}>
-                    Plan your week and automatically generate shopping lists to save time and reduce
-                    waste.
-                </Text>
-
-                <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel="Start planning"
-                    onPress={screen.navigation.goPlan}
-                    style={styles.primaryButton}
-                >
-                    <Text style={styles.primaryButtonText}>+ Start Planning</Text>
-                </Pressable>
-
-                <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel="Browse popular recipes"
-                    onPress={screen.navigation.goRecipes}
-                    style={styles.secondaryButton}
-                >
-                    <Text style={styles.secondaryButtonText}>Browse Popular Recipes</Text>
-                </Pressable>
+                <CooklyEmptyState
+                    actionLabel="Add First Meal"
+                    description="Start by browsing some recipes and build a smarter weekly plan."
+                    onActionPress={screen.navigation.goRecipes}
+                    title="No meals planned yet"
+                />
+                <CooklyButton label="Browse Popular Recipes" onPress={screen.navigation.goRecipes} variant="outline" />
 
                 <View style={styles.benefitRow}>
                     <BenefitCard label="Auto-Shopping" onPress={screen.showAutoShopping} />
@@ -77,6 +53,7 @@ export function PlanningEmptyScreen() {
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />
@@ -92,7 +69,7 @@ type BenefitCardProps = {
 function BenefitCard({ label, onPress }: BenefitCardProps) {
     return (
         <Pressable accessibilityRole="button" onPress={onPress} style={styles.benefitCard}>
-            <Text style={styles.benefitIcon}>S</Text>
+            <CooklyIcon name="shopping" size={typography.subtitle} />
             <Text style={styles.benefitLabel}>{label}</Text>
         </Pressable>
     );

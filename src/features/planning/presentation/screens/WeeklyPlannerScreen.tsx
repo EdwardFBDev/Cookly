@@ -9,6 +9,11 @@ import {
     WeeklyPlanningSection,
 } from '@/features/planning/domain/PlanningModels';
 import { useWeeklyPlannerScreen } from '@/features/planning/presentation/hooks/useWeeklyPlannerScreen';
+import {
+    CooklyIcon,
+    CooklyIconButton,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function WeeklyPlannerScreen() {
     const screen = useWeeklyPlannerScreen();
@@ -17,30 +22,18 @@ export function WeeklyPlannerScreen() {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" style={styles.locationRow}>
-                        <Text style={styles.locationIcon}>P</Text>
-                        <Text style={styles.location}>{screen.locationName}</Text>
-                        <Text style={styles.chevron}>v</Text>
-                    </Pressable>
-                    <View style={styles.headerActions}>
-                        <Pressable
-                            accessibilityRole="button"
-                            accessibilityLabel="Open planning notifications"
-                            onPress={screen.navigation.showNotifications}
-                        >
-                            <Text style={styles.headerIcon}>!</Text>
-                        </Pressable>
-                        <Pressable
-                            accessibilityRole="button"
+                <CooklyTopAppBar
+                    locationLabel={screen.locationName}
+                    onNotificationPress={screen.navigation.showNotifications}
+                    rightAccessory={
+                        <CooklyIconButton
                             accessibilityLabel="Open profile"
+                            icon="profile"
                             onPress={screen.navigation.showProfile}
-                            style={styles.avatar}
-                        >
-                            <Text style={styles.avatarText}>C</Text>
-                        </Pressable>
-                    </View>
-                </View>
+                        />
+                    }
+                    title="Cookly"
+                />
 
                 <View>
                     <Text style={styles.title}>{screen.title}</Text>
@@ -80,7 +73,7 @@ export function WeeklyPlannerScreen() {
                 onPress={screen.navigation.showGenerateList}
                 style={styles.generateButton}
             >
-                <Text style={styles.generateIcon}>S</Text>
+                <CooklyIcon color={colors.inputBackground} name="shopping" size={typography.label} />
                 <Text style={styles.generateText}>Generate List</Text>
             </Pressable>
 
@@ -89,6 +82,7 @@ export function WeeklyPlannerScreen() {
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />
@@ -107,7 +101,7 @@ function PlanningMealSection({ onAddMeal, onMealPress, section }: PlanningMealSe
         <View style={styles.section}>
             <View style={styles.sectionHeader}>
                 <View style={styles.sectionTitleRow}>
-                    <Text style={styles.sectionIcon}>{section.icon}</Text>
+                    <CooklyIcon name="recipes" size={typography.label} />
                     <Text style={styles.sectionTitle}>{section.label}</Text>
                 </View>
                 <Pressable
@@ -116,7 +110,7 @@ function PlanningMealSection({ onAddMeal, onMealPress, section }: PlanningMealSe
                     onPress={onAddMeal}
                     style={styles.addButton}
                 >
-                    <Text style={styles.addButtonText}>+</Text>
+                    <CooklyIcon color={colors.inputBackground} name="add" size={typography.label} />
                 </Pressable>
             </View>
 

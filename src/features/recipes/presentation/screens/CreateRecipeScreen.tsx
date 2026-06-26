@@ -5,6 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, radius, spacing, typography } from '@/app/theme';
 import { RecipeBottomNavigation } from '@/features/recipes/presentation/components/RecipeBottomNavigation';
 import { useCreateRecipeScreen } from '@/features/recipes/presentation/hooks/useCreateRecipeScreen';
+import {
+    CooklyChip,
+    CooklyIcon,
+    CooklyIconButton,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function CreateRecipeScreen() {
     const screen = useCreateRecipeScreen();
@@ -15,12 +20,14 @@ export function CreateRecipeScreen() {
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={styles.header}>
                     <Pressable accessibilityRole="button" onPress={screen.navigation.goBack}>
-                        <Text style={styles.closeText}>x</Text>
+                        <CooklyIcon name="close" size={typography.label} />
                     </Pressable>
                     <Text style={styles.title}>New Recipe</Text>
-                    <View style={styles.avatar}>
-                        <Text style={styles.avatarText}>C</Text>
-                    </View>
+                    <CooklyIconButton
+                        accessibilityLabel="Open profile settings"
+                        icon="profile"
+                        onPress={screen.navigation.goSettings}
+                    />
                 </View>
 
                 <View style={styles.progressHeader}>
@@ -38,7 +45,7 @@ export function CreateRecipeScreen() {
                     onPress={screen.handleAddPhoto}
                     style={styles.photoBox}
                 >
-                    <Text style={styles.photoIcon}>P+</Text>
+                    <CooklyIcon name="add" size={typography.title} />
                     <Text style={styles.photoTitle}>Add Recipe Photo</Text>
                     <Text style={styles.photoHelp}>High-quality JPG or PNG (Max 5MB)</Text>
                 </Pressable>
@@ -61,21 +68,12 @@ export function CreateRecipeScreen() {
                             const isActive = category.key === screen.form.category;
 
                             return (
-                                <Pressable
-                                    accessibilityRole="button"
+                                <CooklyChip
+                                    active={isActive}
                                     key={category.key}
+                                    label={category.label}
                                     onPress={() => screen.updateField('category', category.key)}
-                                    style={[styles.categoryChip, isActive ? styles.categoryChipActive : null]}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.categoryText,
-                                            isActive ? styles.categoryTextActive : null,
-                                        ]}
-                                    >
-                                        {category.label}
-                                    </Text>
-                                </Pressable>
+                                />
                             );
                         })}
                     </View>
@@ -133,7 +131,7 @@ export function CreateRecipeScreen() {
                     onPress={screen.handleSubmit}
                     style={styles.primaryButton}
                 >
-                    <Text style={styles.primaryButtonText}>Next -&gt;</Text>
+                    <Text style={styles.primaryButtonText}>Next</Text>
                 </Pressable>
             </View>
 
@@ -141,6 +139,7 @@ export function CreateRecipeScreen() {
                 activeTab="create"
                 onCatalogPress={screen.navigation.goCatalog}
                 onCreatePress={screen.navigation.goCreateRecipe}
+                onFavoritesPress={screen.navigation.goFavorites}
                 onInventoryPress={screen.navigation.goInventory}
                 onMyRecipesPress={screen.navigation.goMyRecipes}
             />
@@ -268,26 +267,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: spacing.sm,
-    },
-    categoryChip: {
-        backgroundColor: colors.backgroundElevated,
-        borderColor: colors.borderMuted,
-        borderRadius: radius.pill,
-        borderWidth: 1,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-    },
-    categoryChipActive: {
-        backgroundColor: colors.primary,
-        borderColor: colors.primary,
-    },
-    categoryText: {
-        color: colors.textMuted,
-        fontSize: typography.caption,
-        fontWeight: '800',
-    },
-    categoryTextActive: {
-        color: colors.inputBackground,
     },
     fieldRow: {
         flexDirection: 'row',

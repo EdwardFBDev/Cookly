@@ -6,6 +6,10 @@ import { colors, radius, spacing, typography } from '@/app/theme';
 import { HomeBottomNavigation } from '@/features/home/presentation/components/HomeBottomNavigation';
 import { InventoryLocation } from '@/features/inventory/domain/InventoryModels';
 import { useLocationManagementScreen } from '@/features/inventory/presentation/hooks/useLocationManagementScreen';
+import {
+    CooklyIcon,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function LocationManagementScreen() {
     const screen = useLocationManagementScreen();
@@ -14,13 +18,7 @@ export function LocationManagementScreen() {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" onPress={screen.navigation.goInventory}>
-                        <Text style={styles.headerIcon}>{'<'}</Text>
-                    </Pressable>
-                    <Text style={styles.headerTitle}>Inventory</Text>
-                    <Text style={styles.headerIcon}>...</Text>
-                </View>
+                <CooklyTopAppBar onBackPress={screen.navigation.goInventory} title="Inventory" />
 
                 <View style={styles.titleRow}>
                     <View>
@@ -32,7 +30,7 @@ export function LocationManagementScreen() {
                         onPress={screen.handleAddLocation}
                         style={styles.createButton}
                     >
-                        <Text style={styles.createButtonText}>+ Create</Text>
+                        <Text style={styles.createButtonText}>Create</Text>
                     </Pressable>
                 </View>
 
@@ -53,7 +51,7 @@ export function LocationManagementScreen() {
                                 style={styles.locationMain}
                             >
                                 <View style={styles.locationIcon}>
-                                    <Text style={styles.locationIconText}>{location.name.charAt(0)}</Text>
+                                    <CooklyIcon name="location" size={typography.label} />
                                 </View>
                                 <View style={styles.locationInfo}>
                                     <Text style={styles.locationName}>{location.name}</Text>
@@ -61,7 +59,7 @@ export function LocationManagementScreen() {
                                         {location.itemCount} {location.itemCount === 1 ? 'item' : 'items'}
                                     </Text>
                                 </View>
-                                <Text style={styles.chevron}>{'>'}</Text>
+                                <CooklyIcon color={colors.textSubtle} name="chevron-right" size={typography.label} />
                             </Pressable>
 
                             <View style={styles.locationActions}>
@@ -100,6 +98,7 @@ export function LocationManagementScreen() {
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />

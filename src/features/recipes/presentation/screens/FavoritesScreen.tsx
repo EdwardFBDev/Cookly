@@ -6,6 +6,10 @@ import { colors, radius, spacing, typography } from '@/app/theme';
 import { RecipeBottomNavigation } from '@/features/recipes/presentation/components/RecipeBottomNavigation';
 import { RecipeCard } from '@/features/recipes/presentation/components/RecipeCard';
 import { useFavoritesScreen } from '@/features/recipes/presentation/hooks/useFavoritesScreen';
+import {
+    CooklyFab,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function FavoritesScreen() {
     const screen = useFavoritesScreen();
@@ -14,15 +18,15 @@ export function FavoritesScreen() {
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <View style={styles.brandRow}>
-                        <Text style={styles.locationPin}>v</Text>
-                        <Text style={styles.brand}>Cookly</Text>
-                    </View>
-                    <Pressable accessibilityRole="button" onPress={screen.navigation.goFilters}>
-                        <Text style={styles.filterAction}>Filters</Text>
-                    </Pressable>
-                </View>
+                <CooklyTopAppBar
+                    locationLabel="Casa"
+                    rightAccessory={
+                        <Pressable accessibilityRole="button" onPress={screen.navigation.goFilters}>
+                            <Text style={styles.filterAction}>Filters</Text>
+                        </Pressable>
+                    }
+                    title="Cookly"
+                />
 
                 <Text style={styles.title}>Favorites</Text>
 
@@ -54,19 +58,13 @@ export function FavoritesScreen() {
                 )}
             </ScrollView>
 
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open recipe creation"
-                onPress={screen.navigation.goCreateRecipe}
-                style={styles.fab}
-            >
-                <Text style={styles.fabText}>+</Text>
-            </Pressable>
+            <CooklyFab onPress={screen.navigation.goCreateRecipe} />
 
             <RecipeBottomNavigation
-                activeTab="my-recipes"
+                activeTab="favorites"
                 onCatalogPress={screen.navigation.goCatalog}
                 onCreatePress={screen.navigation.goCreateRecipe}
+                onFavoritesPress={screen.navigation.goFavorites}
                 onInventoryPress={screen.navigation.goInventory}
                 onMyRecipesPress={screen.navigation.goMyRecipes}
             />
@@ -83,26 +81,6 @@ const styles = StyleSheet.create({
         gap: spacing.md,
         padding: spacing.md,
         paddingBottom: 116,
-    },
-    header: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    brandRow: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        gap: spacing.xs,
-    },
-    locationPin: {
-        color: colors.primary,
-        fontSize: typography.body,
-        fontWeight: '900',
-    },
-    brand: {
-        color: colors.primary,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
     },
     filterAction: {
         color: colors.textMuted,
@@ -143,22 +121,6 @@ const styles = StyleSheet.create({
     primaryButtonText: {
         color: colors.inputBackground,
         fontSize: typography.caption,
-        fontWeight: '900',
-    },
-    fab: {
-        alignItems: 'center',
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        bottom: 76,
-        height: 54,
-        justifyContent: 'center',
-        position: 'absolute',
-        right: spacing.md,
-        width: 54,
-    },
-    fabText: {
-        color: colors.inputBackground,
-        fontSize: typography.title,
         fontWeight: '900',
     },
 });

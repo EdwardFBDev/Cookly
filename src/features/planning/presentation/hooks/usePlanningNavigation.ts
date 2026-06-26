@@ -16,10 +16,11 @@ export function usePlanningNavigation() {
         goPlanningEmpty: () => router.push('/plan/empty'),
         goRecipeDetail: (recipeId: string) => router.push(`/recipes/${recipeId}`),
         goRecipes: () => router.push('/recipes'),
+        goSettings: () => router.push('/settings'),
         goShopping: () => router.push('/shopping'),
         showBenefit: (benefitName: string) => showFutureRoute(benefitName),
         showGenerateList: () => router.push('/shopping'),
         showNotifications: () => showFutureRoute('Planning notifications'),
-        showProfile: () => showFutureRoute('Profile'),
+        showProfile: () => router.push('/settings'),
     };
 }

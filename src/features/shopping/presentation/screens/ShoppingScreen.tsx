@@ -10,6 +10,11 @@ import {
     ShoppingRecipeSummary,
 } from '@/features/shopping/domain/ShoppingModels';
 import { useShoppingScreen } from '@/features/shopping/presentation/hooks/useShoppingScreen';
+import {
+    CooklyIcon,
+    CooklyIconButton,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function ShoppingScreen() {
     const screen = useShoppingScreen();
@@ -47,6 +52,7 @@ export function ShoppingScreen() {
                 onHomePress={screen.goHome}
                 onInventoryPress={screen.goInventory}
                 onPlanPress={screen.goPlan}
+                onProfilePress={screen.goSettings}
                 onRecipesPress={screen.goRecipes}
                 onShoppingPress={screen.goShopping}
             />
@@ -146,37 +152,32 @@ function ShoppingSummaryState({ screen }: ShoppingStateProps) {
 function ShoppingListState({ screen }: ShoppingStateProps) {
     return (
         <>
-            <View style={styles.listHeader}>
-                <View>
-                    <Text style={styles.brandLarge}>Cookly</Text>
-                </View>
-                <View style={styles.headerActions}>
-                    <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel="Search shopping list"
-                        onPress={() => screen.showItemDetail('Shopping search')}
-                    >
-                        <Text style={styles.headerIcon}>S</Text>
-                    </Pressable>
-                    <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel="Open profile"
-                        onPress={screen.showProfile}
-                        style={styles.avatar}
-                    >
-                        <Text style={styles.avatarText}>C</Text>
-                    </Pressable>
-                </View>
-            </View>
+            <CooklyTopAppBar
+                rightAccessory={
+                    <>
+                        <CooklyIconButton
+                            accessibilityLabel="Search shopping list"
+                            icon="search"
+                            onPress={screen.goSearch}
+                        />
+                        <CooklyIconButton
+                            accessibilityLabel="Open profile"
+                            icon="profile"
+                            onPress={screen.showProfile}
+                        />
+                    </>
+                }
+                title="Cookly"
+            />
 
             <View>
                 <Text style={styles.listTitle}>Shopping List</Text>
-                <Text style={styles.locationText}>P {screen.locationName}</Text>
+                <Text style={styles.locationText}>⌖ {screen.locationName}</Text>
             </View>
 
             <View style={styles.assistantCard}>
                 <View style={styles.assistantIcon}>
-                    <Text style={styles.assistantIconText}>S</Text>
+                    <CooklyIcon name="shopping" size={typography.subtitle} />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.assistantTitle}>{screen.assistantTitle}</Text>
@@ -207,10 +208,10 @@ function ShoppingEmptyState({ screen }: ShoppingStateProps) {
             <View style={styles.emptyContent}>
                 <View style={styles.emptyIllustration}>
                     <View style={styles.bag}>
-                        <Text style={styles.bagIcon}>S</Text>
+                        <CooklyIcon name="shopping" size={42} />
                     </View>
                     <View style={styles.emptyIngredient}>
-                        <Text style={styles.emptyIngredientText}>V</Text>
+                        <CooklyIcon color={colors.inputBackground} name="recipes" size={typography.label} />
                     </View>
                 </View>
 
@@ -234,6 +235,7 @@ function ShoppingEmptyState({ screen }: ShoppingStateProps) {
                 onHomePress={screen.goHome}
                 onInventoryPress={screen.goInventory}
                 onPlanPress={screen.goPlan}
+                onProfilePress={screen.goSettings}
                 onRecipesPress={screen.goRecipes}
                 onShoppingPress={screen.goShopping}
             />
@@ -248,24 +250,17 @@ type ShoppingBrandHeaderProps = {
 
 function ShoppingBrandHeader({ onNotificationsPress, onProfilePress }: ShoppingBrandHeaderProps) {
     return (
-        <View style={styles.brandHeader}>
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open profile"
-                onPress={onProfilePress}
-                style={styles.profileButton}
-            >
-                <Text style={styles.profileText}>C</Text>
-            </Pressable>
-            <Text style={styles.brand}>Cookly</Text>
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open shopping notifications"
-                onPress={onNotificationsPress}
-            >
-                <Text style={styles.notificationIcon}>!</Text>
-            </Pressable>
-        </View>
+        <CooklyTopAppBar
+            onNotificationPress={onNotificationsPress}
+            rightAccessory={
+                <CooklyIconButton
+                    accessibilityLabel="Open profile"
+                    icon="profile"
+                    onPress={onProfilePress}
+                />
+            }
+            title="Cookly"
+        />
     );
 }
 
@@ -317,7 +312,7 @@ function ShoppingSummaryItem({ item, onPress }: ShoppingSummaryItemProps) {
                     {item.quantityLabel} - {getCategoryLabel(item.category)}
                 </Text>
             </View>
-            <Text style={styles.chevron}>{'>'}</Text>
+            <CooklyIcon color={colors.textSubtle} name="chevron-right" size={typography.label} />
         </Pressable>
     );
 }
@@ -365,7 +360,7 @@ function ShoppingListItem({ item, onPress }: ShoppingListItemProps) {
             style={[styles.listItem, isInCart ? styles.listItemChecked : null]}
         >
             <View style={[styles.listCheckbox, isInCart ? styles.listCheckboxChecked : null]}>
-                {isInCart ? <Text style={styles.checkText}>V</Text> : null}
+                {isInCart ? <CooklyIcon color={colors.white} name="check" size={12} /> : null}
             </View>
             <View style={styles.flex}>
                 <Text style={[styles.listItemName, isInCart ? styles.checkedText : null]}>{item.name}</Text>

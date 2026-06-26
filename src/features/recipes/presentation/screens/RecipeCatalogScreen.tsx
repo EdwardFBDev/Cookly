@@ -1,11 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
 import { RecipeBottomNavigation } from '@/features/recipes/presentation/components/RecipeBottomNavigation';
 import { RecipeCard } from '@/features/recipes/presentation/components/RecipeCard';
 import { useRecipeCatalogScreen } from '@/features/recipes/presentation/hooks/useRecipeCatalogScreen';
+import {
+    CooklyChip,
+    CooklyFab,
+    CooklySearchBar,
+    CooklyTopAppBar,
+} from '@/shared/presentation/components/CooklyUI';
 
 export function RecipeCatalogScreen() {
     const screen = useRecipeCatalogScreen();
@@ -13,37 +19,58 @@ export function RecipeCatalogScreen() {
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar style="light" />
+            <CooklyTopAppBar
+                currentLocation="Casa"
+                drawerItems={[
+                    {
+                        active: true,
+                        icon: 'profile',
+                        label: 'Profile',
+                        onPress: screen.navigation.goSettings,
+                    },
+                    {
+                        icon: 'meal-plan',
+                        label: 'Meal Plan',
+                        onPress: screen.navigation.goPlan,
+                    },
+                    {
+                        icon: 'recipes',
+                        label: 'My Recipes',
+                        onPress: screen.navigation.goMyRecipes,
+                    },
+                    {
+                        icon: 'warning',
+                        label: 'Expired Items',
+                        // TODO: Apply an expired-items filter when inventory filtering supports it.
+                        onPress: screen.navigation.goInventory,
+                        sectionLabel: 'Inventory Management',
+                    },
+                    {
+                        icon: 'inventory',
+                        label: 'Expiring Soon',
+                        onPress: screen.navigation.goExpiringIngredients,
+                    },
+                    {
+                        icon: 'settings',
+                        label: 'Settings',
+                        onPress: screen.navigation.goSettings,
+                    },
+                ]}
+                filterLabel={
+                    screen.activeStructuredFilterCount > 0
+                        ? `Filters (${screen.activeStructuredFilterCount})`
+                        : 'Filters'
+                }
+                onFilterPress={screen.navigation.goFilters}
+                onLocationPress={screen.navigation.goLocationManagement}
+                onNotificationPress={screen.navigation.goNotifications}
+            />
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Pressable accessibilityRole="button" style={styles.locationRow}>
-                        <Text style={styles.locationPin}>v</Text>
-                        <Text style={styles.location}>Casa</Text>
-                        <Text style={styles.chevron}>v</Text>
-                    </Pressable>
-                    <Text style={styles.brand}>Cookly</Text>
-                    <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel="Open recipe filters"
-                        onPress={screen.navigation.goFilters}
-                        style={styles.filterButton}
-                    >
-                        <Text style={styles.filterButtonText}>
-                            {screen.activeStructuredFilterCount > 0
-                                ? `Filters (${screen.activeStructuredFilterCount})`
-                                : 'Filters'}
-                        </Text>
-                    </Pressable>
-                </View>
 
-                <View style={styles.searchBox}>
-                    <Text style={styles.searchIcon}>S</Text>
-                    <TextInput
-                        editable={false}
-                        placeholder="Search recipes, ingredients..."
-                        placeholderTextColor={colors.textSubtle}
-                        style={styles.searchInput}
-                    />
-                </View>
+                <CooklySearchBar
+                    onPress={screen.navigation.goSearch}
+                    placeholder="Search recipes, ingredients..."
+                />
 
                 <ScrollView
                     contentContainerStyle={styles.filterRow}
@@ -54,20 +81,16 @@ export function RecipeCatalogScreen() {
                         const isActive = filter.key === screen.selectedFilter;
 
                         return (
-                            <Pressable
-                                accessibilityRole="button"
+                            <CooklyChip
+                                active={isActive}
                                 key={filter.key}
+                                label={filter.label}
                                 onPress={() =>
                                     filter.key === 'favorites'
                                         ? screen.navigation.goFavorites()
                                         : screen.setSelectedFilter(filter.key)
                                 }
-                                style={[styles.filterChip, isActive ? styles.filterChipActive : null]}
-                            >
-                                <Text style={[styles.filterText, isActive ? styles.filterTextActive : null]}>
-                                    {filter.label}
-                                </Text>
-                            </Pressable>
+                            />
                         );
                     })}
                 </ScrollView>
@@ -93,19 +116,13 @@ export function RecipeCatalogScreen() {
                 )}
             </ScrollView>
 
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open recipe creation"
-                onPress={screen.navigation.goCreateRecipe}
-                style={styles.fab}
-            >
-                <Text style={styles.fabText}>R</Text>
-            </Pressable>
+            <CooklyFab icon="add" onPress={screen.navigation.goCreateRecipe} />
 
             <RecipeBottomNavigation
                 activeTab="catalog"
                 onCatalogPress={screen.navigation.goCatalog}
                 onCreatePress={screen.navigation.goCreateRecipe}
+                onFavoritesPress={screen.navigation.goFavorites}
                 onInventoryPress={screen.navigation.goInventory}
                 onMyRecipesPress={screen.navigation.goMyRecipes}
             />
@@ -123,96 +140,8 @@ const styles = StyleSheet.create({
         padding: spacing.md,
         paddingBottom: 118,
     },
-    header: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    locationRow: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        gap: spacing.xs,
-        minWidth: 72,
-    },
-    locationPin: {
-        color: colors.primary,
-        fontSize: typography.body,
-        fontWeight: '900',
-    },
-    location: {
-        color: colors.text,
-        fontSize: typography.label,
-        fontWeight: '900',
-    },
-    chevron: {
-        color: colors.textMuted,
-        fontSize: 10,
-        fontWeight: '900',
-    },
-    brand: {
-        color: colors.primary,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
-    },
-    filterButton: {
-        alignItems: 'center',
-        backgroundColor: colors.backgroundElevated,
-        borderColor: colors.border,
-        borderRadius: radius.sm,
-        borderWidth: 1,
-        minHeight: 32,
-        justifyContent: 'center',
-        paddingHorizontal: spacing.sm,
-    },
-    filterButtonText: {
-        color: colors.primary,
-        fontSize: 11,
-        fontWeight: '900',
-    },
-    searchBox: {
-        alignItems: 'center',
-        backgroundColor: colors.backgroundElevated,
-        borderColor: colors.border,
-        borderRadius: radius.md,
-        borderWidth: 1,
-        flexDirection: 'row',
-        gap: spacing.sm,
-        minHeight: 45,
-        paddingHorizontal: spacing.md,
-    },
-    searchIcon: {
-        color: colors.textMuted,
-        fontSize: typography.label,
-        fontWeight: '900',
-    },
-    searchInput: {
-        color: colors.text,
-        flex: 1,
-        fontSize: typography.label,
-        padding: 0,
-    },
     filterRow: {
         gap: spacing.sm,
-    },
-    filterChip: {
-        backgroundColor: colors.backgroundElevated,
-        borderColor: colors.borderMuted,
-        borderRadius: radius.pill,
-        borderWidth: 1,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-    },
-    filterChipActive: {
-        backgroundColor: colors.primary,
-        borderColor: colors.primary,
-    },
-    filterText: {
-        color: colors.textMuted,
-        fontSize: typography.caption,
-        fontWeight: '800',
-    },
-    filterTextActive: {
-        color: colors.inputBackground,
     },
     recipeList: {
         gap: spacing.md,
@@ -233,21 +162,5 @@ const styles = StyleSheet.create({
         color: colors.textMuted,
         fontSize: typography.caption,
         textAlign: 'center',
-    },
-    fab: {
-        alignItems: 'center',
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        bottom: 76,
-        height: 54,
-        justifyContent: 'center',
-        position: 'absolute',
-        right: spacing.md,
-        width: 54,
-    },
-    fabText: {
-        color: colors.inputBackground,
-        fontSize: typography.subtitle,
-        fontWeight: '900',
     },
 });

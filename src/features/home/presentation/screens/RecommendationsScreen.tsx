@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -8,11 +9,13 @@ import { HomeBottomNavigation } from '@/features/home/presentation/components/Ho
 import { HomeCard } from '@/features/home/presentation/components/HomeCard';
 import { HomeHeader } from '@/features/home/presentation/components/HomeHeader';
 import { useRecommendationsScreen } from '@/features/home/presentation/hooks/useRecommendationsScreen';
+import { CooklyChip, CooklyFab } from '@/shared/presentation/components/CooklyUI';
 
 const FILTERS = ['Under 30 mins', '100% Compatible', 'Favorites'];
 
 export function RecommendationsScreen() {
     const screen = useRecommendationsScreen();
+    const [selectedFilter, setSelectedFilter] = useState(FILTERS[0]);
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -30,12 +33,13 @@ export function RecommendationsScreen() {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 >
-                    {FILTERS.map((filter, index) => (
-                        <View key={filter} style={[styles.filterChip, index === 0 ? styles.activeChip : null]}>
-                            <Text style={[styles.filterText, index === 0 ? styles.activeChipText : null]}>
-                                {filter}
-                            </Text>
-                        </View>
+                    {FILTERS.map((filter) => (
+                        <CooklyChip
+                            active={filter === selectedFilter}
+                            key={filter}
+                            label={filter}
+                            onPress={() => setSelectedFilter(filter)}
+                        />
                     ))}
                 </ScrollView>
 
@@ -44,26 +48,21 @@ export function RecommendationsScreen() {
                         <RecipeCard
                             key={recipe.id}
                             onFavoritePress={() => screen.handleToggleFavorite(recipe.title)}
+                            onPress={() => screen.navigation.goRecipeDetail(recipe.id)}
                             recipe={recipe}
                         />
                     ))}
                 </View>
             </ScrollView>
 
-            <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Add recipe"
-                onPress={screen.navigation.goRecommendations}
-                style={styles.fab}
-            >
-                <Text style={styles.fabText}>+</Text>
-            </Pressable>
+            <CooklyFab onPress={screen.navigation.goRecipes} />
 
             <HomeBottomNavigation
                 activeTab="recipes"
                 onHomePress={screen.navigation.goHome}
                 onInventoryPress={screen.navigation.goInventory}
                 onPlanPress={screen.navigation.goPlan}
+                onProfilePress={screen.navigation.goSettings}
                 onRecipesPress={screen.navigation.goRecipes}
                 onShoppingPress={screen.navigation.goShopping}
             />
@@ -73,14 +72,20 @@ export function RecommendationsScreen() {
 
 type RecipeCardProps = {
     onFavoritePress: () => void;
+    onPress: () => void;
     recipe: RecipeRecommendation;
 };
 
-function RecipeCard({ onFavoritePress, recipe }: RecipeCardProps) {
+function RecipeCard({ onFavoritePress, onPress, recipe }: RecipeCardProps) {
     const hasIssue = Boolean(recipe.issue);
 
     return (
         <HomeCard>
+            <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Open ${recipe.title}`}
+                onPress={onPress}
+            >
             <View style={styles.recipeImage}>
                 {recipe.badge ? (
                     <View style={styles.matchBadge}>
@@ -123,6 +128,7 @@ function RecipeCard({ onFavoritePress, recipe }: RecipeCardProps) {
                     <View style={[styles.progressFill, { width: `${recipe.compatibility}%` }]} />
                 </View>
             </View>
+            </Pressable>
         </HomeCard>
     );
 }
@@ -149,23 +155,6 @@ const styles = StyleSheet.create({
     },
     filterRow: {
         gap: spacing.sm,
-    },
-    filterChip: {
-        backgroundColor: colors.backgroundElevated,
-        borderRadius: radius.pill,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-    },
-    activeChip: {
-        backgroundColor: colors.primary,
-    },
-    filterText: {
-        color: colors.textMuted,
-        fontSize: 11,
-        fontWeight: '800',
-    },
-    activeChipText: {
-        color: colors.inputBackground,
     },
     recipeList: {
         gap: spacing.md,
@@ -277,21 +266,5 @@ const styles = StyleSheet.create({
     progressFill: {
         backgroundColor: colors.primary,
         height: '100%',
-    },
-    fab: {
-        alignItems: 'center',
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        bottom: 76,
-        height: 48,
-        justifyContent: 'center',
-        position: 'absolute',
-        right: spacing.md,
-        width: 48,
-    },
-    fabText: {
-        color: colors.inputBackground,
-        fontSize: typography.title,
-        fontWeight: '900',
     },
 });
