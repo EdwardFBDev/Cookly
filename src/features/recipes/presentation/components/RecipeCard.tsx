@@ -63,6 +63,12 @@ export function RecipeCard({
 
             <View style={styles.body}>
                 <Text style={styles.title}>{recipe.title}</Text>
+                <Text style={styles.category}>{formatRecipeCategory(recipe.category)}</Text>
+                {recipe.description ? (
+                    <Text numberOfLines={2} style={styles.description}>
+                        {recipe.description}
+                    </Text>
+                ) : null}
                 <View style={styles.metaRow}>
                     <Text style={styles.metaText}>{recipe.cookTimeMinutes} min</Text>
                     <Text style={styles.metaText}>{recipe.servings} servings</Text>
@@ -160,6 +166,17 @@ const styles = StyleSheet.create({
         fontSize: typography.subtitle,
         fontWeight: '900',
     },
+    category: {
+        color: colors.primary,
+        fontSize: 10,
+        fontWeight: '900',
+        textTransform: 'uppercase',
+    },
+    description: {
+        color: colors.textMuted,
+        fontSize: typography.caption,
+        lineHeight: 18,
+    },
     metaRow: {
         flexDirection: 'row',
         gap: spacing.md,
@@ -180,3 +197,19 @@ const styles = StyleSheet.create({
         height: '100%',
     },
 });
+
+function formatRecipeCategory(category: Recipe['category']): string {
+    if (category === 'breakfast') {
+        return 'Breakfast';
+    }
+
+    if (category === 'lunch') {
+        return 'Lunch';
+    }
+
+    if (category === 'snacks') {
+        return 'Snacks';
+    }
+
+    return 'Dinner';
+}

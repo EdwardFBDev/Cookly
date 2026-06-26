@@ -30,6 +30,7 @@ export type RecipeStep = {
 export type Recipe = {
     id: string;
     title: string;
+    description?: string;
     category: RecipeCategory;
     cookTimeMinutes: number;
     servings: number;

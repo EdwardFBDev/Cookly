@@ -7,6 +7,7 @@ import {
     RecipeStructuredFilters,
     RecipeTimeFilter,
 } from '@/features/recipes/domain/RecipeModels';
+import type { ApiRecipe } from '@/services/recipesApi';
 
 export const RECIPE_FILTERS: { key: RecipeCatalogFilter; label: string }[] = [
     { key: 'all', label: 'All' },
@@ -44,6 +45,12 @@ export const RECIPE_AVAILABILITY_FILTERS: {
         description: 'Quick shop or easy substitute',
     },
 ];
+
+const REMOTE_RECIPE_IMAGE_BASE_URL =
+    'https://raw.githubusercontent.com/EdwardFBDev/Cookly/master/api/recipes/';
+
+const DEFAULT_RECIPE_IMAGE_URL =
+    'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80';
 
 const INITIAL_RECIPES: Recipe[] = [
     {
@@ -260,6 +267,35 @@ export function getInitialRecipes(): Recipe[] {
     return INITIAL_RECIPES;
 }
 
+export function mapApiRecipesToCatalogRecipes(apiRecipes: ApiRecipe[], favoriteIds: Set<string>): Recipe[] {
+    return apiRecipes.map((apiRecipe) => ({
+        id: apiRecipe.id,
+        title: apiRecipe.name,
+        description: apiRecipe.description,
+        category: normalizeRecipeCategory(apiRecipe.category),
+        cookTimeMinutes: getTotalCookTime(apiRecipe),
+        servings: apiRecipe.servings ?? 1,
+        compatibility: 100,
+        matchLabel: 'Remote',
+        missingIngredientCount: 0,
+        imageUrl: getRecipeImageUrl(apiRecipe.image),
+        accentColor: '#30251F',
+        ingredients: (apiRecipe.ingredients ?? []).map((ingredient, index) => ({
+            id: `${apiRecipe.id}-ingredient-${index}`,
+            name: ingredient.name,
+            quantityLabel: `${ingredient.quantity} ${ingredient.unit}`,
+            availability: 'available',
+        })),
+        steps: (apiRecipe.steps ?? []).map((step, index) => ({
+            id: `${apiRecipe.id}-step-${index}`,
+            title: `Step ${index + 1}`,
+            description: step,
+        })),
+        isFavorite: favoriteIds.has(apiRecipe.id),
+        isOwned: false,
+    }));
+}
+
 export function matchesRecipeFilter(recipe: Recipe, filter: RecipeCatalogFilter): boolean {
     if (filter === 'all') {
         return true;
@@ -302,6 +338,7 @@ export function createLocalRecipe(input: CreateRecipeInput): Recipe {
     return {
         id: createRecipeId(title),
         title,
+        description: 'Created locally in Cookly.',
         category: input.category,
         cookTimeMinutes: input.cookTimeMinutes,
         servings: input.servings,
@@ -329,6 +366,44 @@ export function createLocalRecipe(input: CreateRecipeInput): Recipe {
             },
         ],
     };
+}
+
+function normalizeRecipeCategory(category: string): RecipeCategory {
+    const normalizedCategory = category.trim().toLowerCase();
+
+    if (normalizedCategory === 'breakfast') {
+        return 'breakfast';
+    }
+
+    if (normalizedCategory === 'lunch') {
+        return 'lunch';
+    }
+
+    if (normalizedCategory === 'snacks' || normalizedCategory === 'snack') {
+        return 'snacks';
+    }
+
+    return 'dinner';
+}
+
+function getTotalCookTime(apiRecipe: ApiRecipe): number {
+    const prepTime = apiRecipe.prepTime ?? 0;
+    const cookTime = apiRecipe.cookTime ?? 0;
+    const totalTime = prepTime + cookTime;
+
+    return totalTime > 0 ? totalTime : 30;
+}
+
+function getRecipeImageUrl(image?: string): string {
+    if (!image) {
+        return DEFAULT_RECIPE_IMAGE_URL;
+    }
+
+    if (image.startsWith('http://') || image.startsWith('https://')) {
+        return image;
+    }
+
+    return `${REMOTE_RECIPE_IMAGE_BASE_URL}${image}`;
 }
 
 function matchesTimeFilter(recipe: Recipe, filter: RecipeTimeFilter): boolean {

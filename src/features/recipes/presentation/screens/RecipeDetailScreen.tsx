@@ -118,7 +118,7 @@ export function RecipeDetailScreen() {
                 </Pressable>
                 <Pressable
                     accessibilityRole="button"
-                    onPress={() => screen.toggleFavorite(recipe.id)}
+                    onPress={() => void screen.toggleFavorite(recipe.id)}
                     style={styles.saveButton}
                 >
                     <Text style={styles.saveButtonText}>{recipe.isFavorite ? '*' : '+'}</Text>

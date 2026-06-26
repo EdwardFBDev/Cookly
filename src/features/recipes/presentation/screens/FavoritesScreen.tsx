@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
@@ -7,6 +7,7 @@ import { RecipeBottomNavigation } from '@/features/recipes/presentation/componen
 import { RecipeCard } from '@/features/recipes/presentation/components/RecipeCard';
 import { useFavoritesScreen } from '@/features/recipes/presentation/hooks/useFavoritesScreen';
 import {
+    CooklyButton,
     CooklyFab,
     CooklyTopAppBar,
 } from '@/shared/presentation/components/CooklyUI';
@@ -30,12 +31,24 @@ export function FavoritesScreen() {
 
                 <Text style={styles.title}>Favorites</Text>
 
-                {screen.hasRecipes ? (
+                {screen.isLoading ? (
+                    <View style={styles.emptyState}>
+                        <ActivityIndicator color={colors.primary} />
+                        <Text style={styles.emptyTitle}>Loading favorites</Text>
+                        <Text style={styles.emptyText}>Reading saved recipes from this device.</Text>
+                    </View>
+                ) : screen.favoritesError ? (
+                    <View style={styles.emptyState}>
+                        <Text style={styles.emptyTitle}>Unable to load favorites</Text>
+                        <Text style={styles.emptyText}>{screen.favoritesError}</Text>
+                        <CooklyButton label="Try Again" onPress={screen.loadFavorites} />
+                    </View>
+                ) : screen.hasRecipes ? (
                     <View style={styles.recipeList}>
                         {screen.recipes.map((recipe) => (
                             <RecipeCard
                                 key={recipe.id}
-                                onFavoritePress={() => screen.toggleFavorite(recipe.id)}
+                                onFavoritePress={() => void screen.toggleFavorite(recipe.id)}
                                 onPress={() => screen.navigation.goRecipeDetail(recipe.id)}
                                 recipe={recipe}
                             />

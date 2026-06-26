@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/app/theme';
@@ -7,6 +7,7 @@ import { RecipeBottomNavigation } from '@/features/recipes/presentation/componen
 import { RecipeCard } from '@/features/recipes/presentation/components/RecipeCard';
 import { useRecipeCatalogScreen } from '@/features/recipes/presentation/hooks/useRecipeCatalogScreen';
 import {
+    CooklyButton,
     CooklyChip,
     CooklyFab,
     CooklySearchBar,
@@ -95,19 +96,31 @@ export function RecipeCatalogScreen() {
                     })}
                 </ScrollView>
 
-                {screen.hasRecipes ? (
+                {screen.isLoading ? (
+                    <View style={styles.stateCard}>
+                        <ActivityIndicator color={colors.primary} />
+                        <Text style={styles.emptyTitle}>Loading recipes</Text>
+                        <Text style={styles.emptyText}>Fetching fresh recipes from Cookly services.</Text>
+                    </View>
+                ) : screen.recipesError ? (
+                    <View style={styles.stateCard}>
+                        <Text style={styles.emptyTitle}>Unable to load recipes</Text>
+                        <Text style={styles.emptyText}>{screen.recipesError}</Text>
+                        <CooklyButton label="Try Again" onPress={() => void screen.loadRecipes()} />
+                    </View>
+                ) : screen.hasRecipes ? (
                     <View style={styles.recipeList}>
                         {screen.recipes.map((recipe) => (
                             <RecipeCard
                                 key={recipe.id}
-                                onFavoritePress={() => screen.toggleFavorite(recipe.id)}
+                                onFavoritePress={() => void screen.toggleFavorite(recipe.id)}
                                 onPress={() => screen.navigation.goRecipeDetail(recipe.id)}
                                 recipe={recipe}
                             />
                         ))}
                     </View>
                 ) : (
-                    <View style={styles.emptyState}>
+                    <View style={styles.stateCard}>
                         <Text style={styles.emptyTitle}>No recipes found</Text>
                         <Text style={styles.emptyText}>
                             Try another filter or check back when recipe services are connected.
@@ -146,7 +159,7 @@ const styles = StyleSheet.create({
     recipeList: {
         gap: spacing.md,
     },
-    emptyState: {
+    stateCard: {
         alignItems: 'center',
         backgroundColor: colors.backgroundElevated,
         borderRadius: radius.md,
